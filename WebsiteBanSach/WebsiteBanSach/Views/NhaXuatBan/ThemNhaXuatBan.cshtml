@@ -1,0 +1,50 @@
+﻿@model WebsiteBanSach.Models.NhaXuatBan
+
+@{
+    ViewData["Title"] = "Thêm nhà xuất bản";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thêm nhà xuất bản</h1>
+
+<h4>Thông tin nhà xuất bản</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ThemNhaXuatBan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ten" class="control-label"></label>
+                <input asp-for="ten" class="form-control" />
+                <span asp-validation-for="ten" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="soDienThoai" class="control-label"></label>
+                <input asp-for="soDienThoai" class="form-control" />
+                <span asp-validation-for="soDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="diaChi" class="control-label"></label>
+                <input asp-for="diaChi" class="form-control" />
+                <span asp-validation-for="diaChi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="website" class="control-label"></label>
+                <input asp-for="website" class="form-control" />
+                <span asp-validation-for="website" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Thêm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,91 @@
+﻿@model WebsiteBanSach.Models.ViewModel.SachNXBLoai
+
+@{
+    ViewData["Title"] = "Sửa thông tin sách";
+    Layout = "_LayoutNV";
+}
+
+<h1>Sửa thông tin sách</h1>
+
+<h4>Thông tin sách</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="suaThongTinSach">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-2 float-left">
+                <label asp-for="sach.idSach" class="control-label"></label>
+                <input asp-for="sach.idSach" class="form-control" />
+                <span asp-validation-for="sach.idSach" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2 float-left">
+                <label asp-for="sach.lanTaiBan" class="control-label"></label>
+                <input asp-for="sach.lanTaiBan" class="form-control" />
+                <span asp-validation-for="sach.lanTaiBan" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-5 float-left">
+                <label asp-for="sach.ten" class="control-label"></label>
+                <input asp-for="sach.ten" class="form-control" />
+                <span asp-validation-for="sach.ten" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3 float-left">
+                <label asp-for="sach.idNhaXuatBan" class="control-label">Nhà xuất bản</label>
+                <select asp-for="sach.idNhaXuatBan" class="form-control">
+                    @{
+                        foreach (NhaXuatBan nhaXuatBan in Model.danhSachNhaXuatBan)
+                        {
+                            <option value="@nhaXuatBan.idNhaXuatBan">@nhaXuatBan.ten</option>
+                        }
+                    }
+                </select>
+                @*<input asp-for="nhaXuatBan.ten" class="form-control" />*@
+                <span asp-validation-for="sach.idNhaXuatBan" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3 float-left">
+                <label asp-for="sach.maLoai" class="control-label">Loại sách</label>
+                <select asp-for="sach.maLoai" class="form-control">
+                    @{
+                        foreach (LoaiSach loaiSach in Model.danhSachLoai)
+                        {
+                            <option value="@loaiSach.idLoai">@loaiSach.tenLoai</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="sach.maLoai" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3 float-left">
+                <label asp-for="sach.giaBan" class="control-label"></label>
+                <input asp-for="sach.giaBan" class="form-control" />
+                <span asp-validation-for="sach.giaBan" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3 float-left">
+                <label asp-for="sach.soLuong" class="control-label"></label>
+                <input asp-for="sach.soLuong" class="form-control" />
+                <span asp-validation-for="sach.soLuong" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3 float-left">
+                <label asp-for="sach.hinhAnh" class="control-label"></label>
+                <input asp-for="sach.hinhAnh" class="form-control" />
+                <span asp-validation-for="sach.hinhAnh" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-12 float-left">
+                <label asp-for="sach.moTa" class="control-label"></label>
+                <input asp-for="sach.moTa" class="form-control" />
+                <span asp-validation-for="sach.moTa" class="text-danger"></span>
+            </div>
+            <div style="margin-left: 20px;" class="form-group form-check float-left">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="sach.trangThai" /> @Html.DisplayNameFor(model => model.sach.trangThai)
+                </label>
+            </div>
+            <div class="form-group col-md-12 float-left">
+                <input type="submit" value="Cập nhập" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

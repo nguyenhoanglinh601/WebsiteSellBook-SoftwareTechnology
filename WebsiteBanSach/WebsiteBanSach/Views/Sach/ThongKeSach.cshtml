@@ -1,0 +1,87 @@
+﻿@model WebsiteBanSach.Models.ViewModel.ThongKeSach
+
+@{
+    ViewData["Title"] = "Thống kê sách";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thống kê sách</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="themSach">Thêm sách</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên sách
+            </th>
+            <th>
+                Nhà xuất bản
+            </th>
+            <th>
+                Loại sách
+            </th>
+            <th>
+                Giá bán
+            </th>
+            <th>
+                Số lượng còn
+            </th>
+            <th>
+                Hình ảnh
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.tapHopSach)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ten)
+                </td>
+                <td>
+                    @{
+                        foreach (NhaXuatBan NXB in Model.danhSachNXB)
+                        {
+                            if (item.idNhaXuatBan == NXB.idNhaXuatBan)
+                            {
+                                @Html.DisplayFor(modelNXB => NXB.ten)
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        foreach (LoaiSach loaiSach in Model.tapHopLoaiSach)
+                        {
+                            if (item.maLoai == loaiSach.idLoai)
+                            {
+                                @Html.DisplayFor(modelLoaiSach => loaiSach.tenLoai)
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.giaBan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.soLuong)
+                </td>
+                <td>
+                    <img src="~/images/@Html.DisplayFor(modelItem => item.hinhAnh)">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.trangThai)
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="./suaThongTinSach?id=@item.idSach&lanTaiBan=@item.lanTaiBan">Sửa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

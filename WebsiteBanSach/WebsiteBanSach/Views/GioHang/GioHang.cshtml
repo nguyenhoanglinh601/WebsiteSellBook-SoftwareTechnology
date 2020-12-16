@@ -1,0 +1,132 @@
+﻿@model WebsiteBanSach.Models.ViewModel.GioHang
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    decimal tongTien = 0;
+
+    string dinhDangTien(decimal gia)
+    {
+        string giaBanVND = "";
+        string giaBan = Convert.ToInt32(gia).ToString();
+        var j = 0;
+        for (var i = giaBan.Length - 1; i >= 0; i--)
+        {
+            giaBanVND = giaBan[i] + giaBanVND;
+            j++;
+            if (j % 3 == 0 && i != 0)
+            {
+                giaBanVND = "." + giaBanVND;
+            }
+        }
+        return giaBanVND;
+    }
+}
+
+<h1>Giỏ hàng</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên sách
+            </th>
+            <th>
+                Loại sách
+            </th>
+            <th>
+                NXB
+            </th>
+            <th>
+                Số lượng
+            </th>
+            <th>
+                Giá Bán
+            </th>
+            <th>
+                Thành tiền
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.tapHopSanPham)
+        {
+            var x = @item.sach.giaBan * @item.soLuong;
+            <tr>
+                <td>
+                    @item.sach.ten
+                </td>
+                <td>
+                    @foreach (var loaiSach in Model.tapHopLoaiSach)
+                    {
+                        if (item.sach.maLoai == loaiSach.idLoai)
+                        {
+                            @loaiSach.tenLoai
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var NXB in Model.danhSachNXB)
+                    {
+                        if (item.sach.idNhaXuatBan == NXB.idNhaXuatBan)
+                        {
+                            @NXB.ten
+                        }
+                    }
+                </td>
+                <td>
+                    @item.soLuong
+                </td>
+                <td>
+                    @dinhDangTien(item.sach.giaBan) đ
+                </td>
+                <td>
+                    <p>@dinhDangTien(x) đ</p>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="suaGioHang" asp-route-idSach="@item.sach.idSach">Sửa</a>
+                    <a class="btn btn-danger" asp-action="xoaSachKhoiGioHang" asp-route-idSach="@item.sach.idSach">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@foreach (var item in Model.tapHopSanPham)
+{
+    tongTien = tongTien + item.sach.giaBan * item.soLuong;
+}
+<p style="font-weight: bold; width: 10%; display: inline-block">tổng tiền: </p>@dinhDangTien(tongTien) đ
+<br />
+<br />
+<a class="btn btn-success" asp-controller="Sach" asp-action="hienThiDanhSachSach">Tiếp tục mua hàng</a>
+@if (Model.tapHopSanPham.LongCount() == 0)
+{
+    <a class="btn btn-warning disabled" asp-controller="DonHang" asp-action="datHang">Đặt hàng</a>
+}
+else
+{
+    <a class="btn btn-warning" asp-controller="DonHang" asp-action="datHang">Đặt hàng</a>
+}
+
+
+<div class="row">
+    @*<form asp-controller="DonHang" asp-action="suaThongTinDonHang">
+            <input type="hidden" asp-for="maKhachHang" />
+            <input type="hidden" asp-for="gioHang" />
+            <div class="form-group col-sm-12">
+                <label asp-for="soDienThoaiNguoiNhan" class="control-label"></label>
+                <input asp-for="soDienThoaiNguoiNhan" class="form-control" />
+                <span asp-validation-for="soDienThoaiNguoiNhan" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-12">
+                <label asp-for="diaChiGiaoHang" class="control-label"></label>
+                <input asp-for="diaChiGiaoHang" class="form-control" />
+                <span asp-validation-for="diaChiGiaoHang" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Đặt hàng" class="btn btn-primary" />
+            </div>
+        </form>*@
+
+</div>

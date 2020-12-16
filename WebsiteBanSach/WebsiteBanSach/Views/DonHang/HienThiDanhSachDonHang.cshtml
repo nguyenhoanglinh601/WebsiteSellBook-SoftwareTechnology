@@ -1,0 +1,115 @@
+﻿@model IEnumerable<WebsiteBanSach.Models.ViewModel.DonHangVaTrangThai>
+
+@{
+    ViewData["Title"] = "Danh sách đơn đặt hàng";
+
+    string dinhDangTien(decimal gia)
+    {
+        string giaBanVND = "";
+        string giaBan = Convert.ToInt32(gia).ToString();
+        var j = 0;
+        for (var i = giaBan.Length - 1; i >= 0; i--)
+        {
+            giaBanVND = giaBan[i] + giaBanVND;
+            j++;
+            if (j % 3 == 0 && i != 0)
+            {
+                giaBanVND = "." + giaBanVND;
+            }
+        }
+        return giaBanVND+"đ";
+    }
+}
+
+<h1>Danh sách đơn hàng</h1>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.idDonHang)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.thoiGianDatHang)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.diaChiGiaoHang)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.thoiGianGiaoHangDuKien)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.phiGiaoHang)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.soDienThoai)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.VAT)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.donHang.tongTien)
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.donHang.idDonHang)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.donHang.thoiGianDatHang)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.donHang.diaChiGiaoHang)
+                    </td>
+                    <td>
+                        @if (item.donHang.thoiGianGiaoHangDuKien.ToString() == "1/1/0001 12:00:00 AM")
+                        {
+                            <i>Đang xử lý</i>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.donHang.thoiGianGiaoHangDuKien)
+                        }
+                    </td>
+                    <td>
+                        @if (item.donHang.phiGiaoHang.ToString() == "0.00")
+                        {
+                            <i>Đang xử lý</i>
+                        }
+                        else
+                        {
+                            @dinhDangTien(item.donHang.phiGiaoHang)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.donHang.soDienThoai)
+                    </td>
+                    <td>
+                        @dinhDangTien(item.donHang.VAT)
+                    </td>
+                    <td>
+                        @dinhDangTien(item.donHang.tongTien)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.trangThaiDonhang)
+                    </td>
+                    <td>
+                        <a style="width: 120px;" class="btn btn-success mb-1 p-0" asp-action="suaThongTinDonHang" asp-route-idDonHang="@item.donHang.idDonHang">Sửa thông tin</a>
+                        <a style="width: 120px;" class="btn btn-info mb-1 p-0" asp-action="xemDonHang" asp-route-idDonHang="@item.donHang.idDonHang">Xem chi tiết</a>
+                        <a style="width: 120px;" class="btn btn-warning p-0" asp-action="huyDonHang" asp-route-idDonHang="@item.donHang.idDonHang">Hủy đơn hàng</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

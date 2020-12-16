@@ -1,0 +1,100 @@
+﻿@model WebsiteBanSach.Models.ViewModel.ThongTinSach
+
+@{
+    ViewData["Title"] = "Thông tin sách";
+}
+
+<h1>Xem thông tin sách</h1>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-4">
+            <img style="width:100%;" src="~/images/@Html.DisplayFor(model => model.sach.hinhAnh)" />
+        </div>
+        <div class="col-sm-8 row">
+            <div style="font-weight: bold;" class="col-sm-3">
+                Tên sách
+            </div>
+            <div class="col-sm-9">
+                @Html.DisplayFor(model => model.sach.ten)
+            </div>
+            <div style="font-weight: bold;" class="col-sm-3">
+                Nhà xuất bản
+            </div>
+            <div class="col-sm-9">
+                @Html.DisplayFor(model => model.NXB)
+            </div>
+            <div style="font-weight: bold;" class="col-sm-3">
+                Loại sách
+            </div>
+            <div class="col-sm-9">
+                @Html.DisplayFor(model => model.loaiSach)
+            </div>
+            <div style="font-weight: bold;" class="col-sm-3">
+                @Html.DisplayNameFor(model => model.sach.giaBan)
+            </div>
+            <div class="col-sm-9">
+                @Html.DisplayFor(model => model.sach.giaBan) đ
+            </div>
+            <div style="font-weight: bold;" class="col-sm-3">
+                @Html.DisplayNameFor(model => model.sach.soLuong)
+            </div>
+            <div class="col-sm-9">
+                @Html.DisplayFor(model => model.sach.soLuong)
+            </div>
+            <div style="font-weight: bold;" class="col-sm-3">
+                @Html.DisplayNameFor(model => model.sach.moTa)
+            </div>
+            <div class="col-sm-9">
+                @Html.DisplayFor(model => model.sach.moTa)
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <form asp-controller="GioHang" asp-action="themSachVaoGioHang" method="post">
+            <input type="hidden" name="idSach" value="@Model.sach.idSach" />
+            <input type="submit" value="Thêm vào giỏ" class="btn btn-danger" />
+        </form>
+    </div>
+    
+    @*<div class="row">
+            <div class="col-sm-2">
+                @Html.DisplayNameFor(model => model.sach.ten)
+            </div>
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.sach.ten)
+            </div>
+            <div class="col-sm-2">
+                Nhà xuất bản
+            </div>
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.NXB)
+            </div>
+            <div class="col-sm-2">
+                Loại sách
+            </div>
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.loaiSach)
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayNameFor(model => model.sach.giaBan) đ
+            </div>
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.sach.giaBan)
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayNameFor(model => model.sach.soLuong)
+            </div>
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.sach.soLuong)
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayNameFor(model => model.sach.moTa)
+            </div>
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.sach.moTa)
+            </div>
+        </div>*@
+</div>

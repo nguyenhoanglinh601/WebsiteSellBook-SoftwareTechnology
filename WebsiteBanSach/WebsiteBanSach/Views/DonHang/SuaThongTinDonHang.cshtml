@@ -1,0 +1,39 @@
+﻿@model WebsiteBanSach.Models.DonHang
+
+@{
+    ViewData["Title"] = "Cập nhập thông tin đơn hàng";
+}
+
+<h1>Cập nhập thông tin đơn hàng</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="DonHang" asp-action="suaThongTinDonHang">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idDonHang" />
+            <div class="form-group">
+                <label asp-for="tenNguoiNhan" class="control-label"></label>
+                <input asp-for="tenNguoiNhan" class="form-control" />
+                <span asp-validation-for="tenNguoiNhan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="diaChiGiaoHang" class="control-label"></label>
+                <textarea asp-for="diaChiGiaoHang" class="form-control"></textarea>
+                <span asp-validation-for="diaChiGiaoHang" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="soDienThoai" class="control-label"></label>
+                <input asp-for="soDienThoai" class="form-control" />
+                <span asp-validation-for="soDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cập nhập" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

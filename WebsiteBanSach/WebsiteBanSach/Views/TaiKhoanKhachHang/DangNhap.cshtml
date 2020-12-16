@@ -1,0 +1,46 @@
+﻿@model WebsiteBanSach.Models.ViewModel.TaiKhoanDangNhap
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="row justify-content-center">
+    <div style="border: 1px solid #A9A9A9; border-radius:10px;" class="col-md-4">
+        <div class="row justify-content-center">
+            <h1>Đăng nhập</h1>
+        </div>
+        <hr />
+        <form asp-controller="TaiKhoanKhachHang" asp-action="xacNhanDangNhap">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="taiKhoan" class="control-label"></label>
+                <input asp-for="taiKhoan" class="form-control" />
+                <span asp-validation-for="taiKhoan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="matKhau" class="control-label"></label>
+                <input type="password" asp-for="matKhau" class="form-control" />
+                <span asp-validation-for="matKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="row justify-content-center">
+                    @{
+                        <p style="color:red;">@ViewData["ThongDiepDangNhapLoi"]</p>
+                    }
+                </div>
+                <div class="row justify-content-center">
+                    <input type="submit" value="Đăng nhập" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row justify-content-center">
+                    <a style="text-decoration: none;" asp-controller="TaiKhoanKhachHang" asp-action="dangKi"><i>Đăng kí tài khoản mới</i></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

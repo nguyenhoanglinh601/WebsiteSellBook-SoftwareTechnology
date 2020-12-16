@@ -1,0 +1,55 @@
+﻿@model WebsiteBanSach.Models.ViewModel.SachTacGia
+
+@{
+    ViewData["Title"] = "Thêm tác giả sách";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thêm tác giả sách</h1>
+
+<h4>Thông tin sách - tác giả</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="themTacGiaSach">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="idSach" class="control-label"></label>
+            <input asp-for="idSach" class="form-control" />
+            <span asp-validation-for="idSach" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="chiTietSach.idSach" class="control-label">Tên sách</label>
+                <select asp-for="chiTietSach.idSach" class="form-control">
+                    @{
+                        foreach (Sach sach in Model.sach)
+                        {
+                            <option value="@sach.idSach">@sach.ten</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="chiTietSach.idSach" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="chiTietSach.idTacGia" class="control-label">Tên tác giả</label>
+                <select asp-for="chiTietSach.idTacGia" class="form-control">
+                    @{
+                        foreach (TacGia tacGia in Model.tacGia)
+                        {
+                            <option value="@tacGia.idTacGia">@tacGia.ten</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="chiTietSach.idTacGia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Thêm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

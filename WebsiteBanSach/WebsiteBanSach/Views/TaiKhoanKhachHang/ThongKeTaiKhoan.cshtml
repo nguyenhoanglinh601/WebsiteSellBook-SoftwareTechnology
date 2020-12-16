@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebsiteBanSach.Models.TaiKhoanKhachHang>
+
+@{
+    ViewData["Title"] = "Thống kê khách hàng";
+    Layout = "_LayoutNV";
+}
+
+<h1>Danh sách tài khoản khách hàng</h1>
+<form asp-controller="TaiKhoanKhachHang" asp-action="thongKeTaiKhoan" method="get">
+    <p>
+        Tên khách hàng: <input type="text" name="tenKhachHangTimKiem">
+        <input type="submit" value="Tìm kiếm" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tenKhachHang)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ngaySinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gioiTinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.diaChi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.soDienThoai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.diemMuaHang)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.trangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tenKhachHang)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ngaySinh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gioiTinh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.diaChi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.soDienThoai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.diemMuaHang)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.trangThai)
+                </td>
+                <td>
+                    <a style="width: 50px;" class="btn btn-primary" value="Sửa" asp-controller="TaiKhoanKhachHang" asp-action="suaTrangThaiTaiKhoan" asp-route-idKhachHang="@item.idKhachHang">Sửa</a>
+                </td>
+                @*<td>
+                    @Html.ActionLink("Edit", "suaTrangThaiTaiKhoan", new { id=item.idKhachHang }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

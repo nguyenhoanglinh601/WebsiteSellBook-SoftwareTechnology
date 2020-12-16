@@ -1,0 +1,55 @@
+﻿@model WebsiteBanSach.Models.TaiKhoanNhanVien
+
+@{
+    ViewData["Title"] = "Thêm tài khoản";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thêm tài khoản</h1>
+
+<h4>Thông tin cá nhân</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="TaiKhoanNhanVien" asp-action="suaTrangThaiTaiKhoan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idNhanVien" />
+            <input type="hidden" asp-for="tenNhanVien" />
+            <input type="hidden" asp-for="soDienThoai" />
+            <input type="hidden" asp-for="matKhau" />
+            <div class="form-group">
+                <label asp-for="tenNhanVien" class="control-label"></label>
+                <input asp-for="@Model.tenNhanVien" class="form-control" disabled />
+                <span asp-validation-for="tenNhanVien" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="soDienThoai" class="control-label"></label>
+                <input asp-for="@Model.soDienThoai" class="form-control" disabled />
+                <span asp-validation-for="soDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="vaiTro" class="control-label"></label>
+                <br />
+                @foreach (string vaiTro in new[] { "quản lý", "nhân viên" })
+                {
+                    <input type="radio" asp-for="vaiTro" value="@vaiTro" />@vaiTro
+                }
+                <span asp-validation-for="vaiTro" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="trangThai" /> @Html.DisplayNameFor(model => model.trangThai)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                <a href="./ThongKeTaiKhoan" class="btn btn-primary">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

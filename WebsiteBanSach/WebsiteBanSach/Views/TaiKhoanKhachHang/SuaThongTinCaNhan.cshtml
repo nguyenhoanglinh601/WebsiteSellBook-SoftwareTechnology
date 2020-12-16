@@ -1,0 +1,74 @@
+﻿@model WebsiteBanSach.Models.ViewModel.TaiKhoanDangKiKhachHang
+
+@{
+    ViewData["Title"] = "Cập nhập thông tin";
+}
+
+<h1>Cập nhập thông tin cá nhân</h1>
+<hr />
+<p style="color:red;">@ViewData["ThongDiepSuaTaiKhoanLoi"]</p>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="TaiKhoanKhachHang" asp-action="suaThongTinCaNhan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="taiKhoanKhachHang.idKhachHang" />
+            <input type="hidden" asp-for="taiKhoanKhachHang.trangThai" />
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoanKhachHang.tenKhachHang" class="control-label"></label>
+                <input asp-for="taiKhoanKhachHang.tenKhachHang" class="form-control" />
+                <span asp-validation-for="taiKhoanKhachHang.tenKhachHang" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoanKhachHang.ngaySinh" class="control-label"></label>
+                <input asp-for="taiKhoanKhachHang.ngaySinh" class="form-control" />
+                <span asp-validation-for="taiKhoanKhachHang.ngaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoanKhachHang.gioiTinh" class="control-label"></label>
+                @foreach (string gioiTinh in new[] { "Nam", "Nữ", "Khác" })
+                {
+                    <input type="radio" asp-for="@Model.taiKhoanKhachHang.gioiTinh" value="@gioiTinh" />@gioiTinh
+                }
+                <span asp-validation-for="taiKhoanKhachHang.gioiTinh" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoanKhachHang.soDienThoai" class="control-label"></label>
+                <input asp-for="taiKhoanKhachHang.soDienThoai" class="form-control" />
+                <span asp-validation-for="taiKhoanKhachHang.soDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoanKhachHang.diaChi" class="control-label"></label>
+                <input asp-for="taiKhoanKhachHang.diaChi" class="form-control" />
+                <span asp-validation-for="taiKhoanKhachHang.diaChi" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoanKhachHang.taiKhoan" class="control-label"></label>
+                <input asp-for="@Model.taiKhoanKhachHang.taiKhoan" class="form-control" disabled />
+                <input asp-for="taiKhoanKhachHang.taiKhoan" class="form-control" hidden />
+                <span asp-validation-for="taiKhoanKhachHang.taiKhoan" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label class="control-label">Mật khẩu mới</label>
+                <input type="password" asp-for="taiKhoanKhachHang.matKhau" value="@Model.taiKhoanKhachHang.matKhau" class="form-control" />
+                <span asp-validation-for="taiKhoanKhachHang.matKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label class="control-label">Xác nhận mật khẩu mới</label>
+                <input type="password" asp-for="xacNhanMatKhau" value="@Model.taiKhoanKhachHang.matKhau" class="form-control" />
+                <span asp-validation-for="xacNhanMatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div style="margin-left: 14px;" class="row">
+                    <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                    @*<a href="./suaThongTinCaNhan/@Model.taiKhoanKhachHang.idKhachHang" class="btn btn-primary">Tải lại</a>
+                    *@
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<WebsiteBanSach.Models.NhaXuatBan>
+
+@{
+    ViewData["Title"] = "Thống kê nhà xuất bản";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thống kê nhà xuất bản</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="themNhaXuatBan">Thêm nhà xuất bản</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.soDienThoai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.diaChi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.website)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.soDienThoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.diaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.website)
+            </td>
+            <td>
+                <a class="btn-danger btn" asp-action="suaThongTinNXB" asp-route-id="@item.idNhaXuatBan">Sửa</a>
+                <a class="btn-primary btn" asp-action="ChiTietNhaXuatBan" asp-route-id="@item.idNhaXuatBan">Xem</a>
+                <a class="btn-warning btn" asp-action="XoaNhaXuatBan" asp-route-id="@item.idNhaXuatBan">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebsiteBanSach.Models.TacGia>
+
+@{
+    ViewData["Title"] = "Thống kê tác giả";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thống kê tác giả</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="ThemTacGia">Thêm tác giả</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gioiTinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.namSinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.quocTich)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gioiTinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.namSinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quocTich)
+            </td>
+            <td>
+                <a class="btn-danger btn" asp-action="SuaTacGia" asp-route-id="@item.idTacGia">Sửa</a>
+                <a class="btn-primary btn" asp-action="ChiTietTacGia" asp-route-id="@item.idTacGia">Xem</a>
+                <a class="btn-warning btn" asp-action="XoaTacGia" asp-route-id="@item.idTacGia">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

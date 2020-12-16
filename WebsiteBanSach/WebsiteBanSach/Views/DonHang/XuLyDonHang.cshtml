@@ -1,0 +1,186 @@
+﻿@model WebsiteBanSach.Models.ViewModel.DonHangVaTrangThai
+
+@{
+    ViewData["Title"] = "Xử lý đơn hàng";
+    string[] cacTrangThai = new string[] { "Đang xử lý", "Đã tiếp nhận", "Chuyển giao hàng", "Đã giao hàng", "Hủy" };
+    int intTrangThai = 0;
+    Layout = "_LayoutNV";
+
+    string dinhDangTien(decimal gia)
+    {
+        string giaBanVND = "";
+        string giaBan = Convert.ToInt32(gia).ToString();
+        var j = 0;
+        for (var i = giaBan.Length - 1; i >= 0; i--)
+        {
+            giaBanVND = giaBan[i] + giaBanVND;
+            j++;
+            if (j % 3 == 0 && i != 0)
+            {
+                giaBanVND = "." + giaBanVND;
+            }
+        }
+        return giaBanVND;
+    }
+}
+
+<h1>Xử lý đơn hàng</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Mã đơn hàng
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.donHang.idDonHang)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.donHang.tenNguoiNhan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.donHang.tenNguoiNhan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.donHang.diaChiGiaoHang)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.donHang.diaChiGiaoHang)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.donHang.soDienThoai)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.donHang.soDienThoai)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.donHang.VAT)
+        </dt>
+        <dd class="col-sm-10">
+            @dinhDangTien(Model.donHang.VAT) đ
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.donHang.tongTien)
+        </dt>
+        <dd class="col-sm-10">
+            @dinhDangTien(Model.donHang.tongTien) đ
+        </dd>
+    </dl>
+</div>
+<hr />
+<h2>Danh sách sản phẩm đặt</h2>
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã sách
+            </th>
+            <th>
+                Lần tái bản
+            </th>
+            <th>
+                Tên sách
+            </th>
+            <th>
+                Loại sách
+            </th>
+            <th>
+                NXB
+            </th>
+            <th>
+                Số lượng
+            </th>
+            <th>
+                Giá Bán
+            </th>
+            <th>
+                Thành tiền
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.gioHang)
+        {
+            var x = @item.sach.giaBan * @item.soLuong;
+        <tr>
+            <td>
+                @item.sach.idSach
+            </td>
+            <td>
+                @item.sach.lanTaiBan
+            </td>
+            <td>
+                @item.sach.ten
+            </td>
+            <td>
+                @foreach (var loaiSach in item.tapHopLoaiSach)
+                {
+                    if (item.sach.maLoai == loaiSach.idLoai)
+                    {
+                        @loaiSach.tenLoai
+                    }
+                }
+            </td>
+            <td>
+                @foreach (var NXB in item.danhSachNXB)
+                {
+                    if (item.sach.idNhaXuatBan == NXB.idNhaXuatBan)
+                    {
+                        @NXB.ten
+                    }
+                }
+            </td>
+            <td>
+                @item.soLuong
+            </td>
+            <td>
+                @item.sach.giaBan đ
+            </td>
+            <td>
+                <p>@x đ</p>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h2>Cập nhập đơn hàng</h2>
+<div>
+    <form asp-controller="DonHang" asp-action="xuLyDonHang">
+        <input type="hidden" name="idDonHang" value="@Model.donHang.idDonHang" />
+        <div class="row">
+            <div class="form-group m-1">
+                <label asp-for="@Model.donHang.thoiGianGiaoHangDuKien" class="control-label"></label>
+                <input name="thoiGianGiaoHangDuKien" value="@Model.donHang.thoiGianGiaoHangDuKien" class="form-control" />
+            </div>
+            <div class="form-group m-1">
+                <label asp-for="@Model.donHang.phiGiaoHang" class="control-label"></label>
+                <input name="phiGiaoHang" value="@Model.donHang.phiGiaoHang" class="form-control" />
+            </div>
+            <div class="form-group m-1">
+                <label class="control-label">Trạng thái</label>
+                <select class="form-control" name="idTrangThai">
+                    @foreach (var trangThai in cacTrangThai)
+                    {
+                        intTrangThai++;
+                        @if (Model.trangThaiDonhang == trangThai)
+                        {
+                            <option value="@intTrangThai" selected>@trangThai</option>
+                        }
+                        else
+                        {
+                            <option value="@intTrangThai">@trangThai</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="@Model.trangThaiDonhang" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group" style="margin-right:5px;">
+            <input type="submit" value="Cập nhập" class="btn btn-primary" />
+        </div>
+    </form>
+
+</div>

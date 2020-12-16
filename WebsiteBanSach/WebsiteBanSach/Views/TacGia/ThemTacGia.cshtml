@@ -1,0 +1,46 @@
+﻿@model WebsiteBanSach.Models.TacGia
+
+@{
+    ViewData["Title"] = "Thêm tác giả";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thêm tác giả</h1>
+
+<h4>Thông tin tác giả</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ThemTacGia">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ten" class="control-label"></label>
+                <input asp-for="ten" class="form-control" />
+                <span asp-validation-for="ten" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="gioiTinh" class="control-label"></label>
+                <input asp-for="gioiTinh" class="form-control" />
+                <span asp-validation-for="gioiTinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="namSinh" class="control-label"></label>
+                <input asp-for="namSinh" class="form-control" />
+                <span asp-validation-for="namSinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="quocTich" class="control-label"></label>
+                <input asp-for="quocTich" class="form-control" />
+                <span asp-validation-for="quocTich" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Thêm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

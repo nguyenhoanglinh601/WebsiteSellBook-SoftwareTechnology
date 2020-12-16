@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WebsiteBanSach.Models.LoaiSach>
+
+@{
+    ViewData["Title"] = "Thống kê loại sách";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thống kê loại sách</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="themLoaiSach">Thêm loại sách</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tenLoai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.moTa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tenLoai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.moTa)
+                </td>
+                <td style="text-align: right;">
+                    <a class="btn btn-primary" asp-action="suaLoaiSach" asp-route-id="@item.idLoai">Sửa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

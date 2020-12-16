@@ -1,0 +1,44 @@
+﻿@model WebsiteBanSach.Models.TaiKhoanNhanVien
+
+@{
+    ViewData["Title"] = "Cập nhập thông tin cá nhân";
+    Layout = "_LayoutNV";
+}
+
+<h1>Cập nhập thông tin cá nhân</h1>
+
+<h4>Thông tin cá nhân</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="TaiKhoanNhanVien" asp-action="suaThongTinCaNhan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idNhanVien" />
+            <input type="hidden" asp-for="vaiTro" />
+            <input type="hidden" asp-for="trangThai" />
+            <div class="form-group">
+                <label asp-for="tenNhanVien" class="control-label"></label>
+                <input asp-for="tenNhanVien" class="form-control" />
+                <span asp-validation-for="tenNhanVien" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="soDienThoai" class="control-label"></label>
+                <input asp-for="soDienThoai" class="form-control" />
+                <span asp-validation-for="soDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="matKhau" class="control-label"></label>
+                <input asp-for="matKhau" class="form-control" />
+                <span asp-validation-for="matKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cập nhập" class="btn btn-primary m-1" />
+                <input type="submit" value="Quay lại" asp-controller="DonHang" asp-action="thongKeDonHang" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

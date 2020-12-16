@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HoangLinhBooks</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        .dropbtn {
+            background-color: white;
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+            <div class="container">
+                <a style="font-size: 30px" class="navbar-brand" asp-area="" asp-controller="DonHang" asp-action="thongKeDonHang">HoangLinhBooks</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <div class="dropdown">
+                            <button class="dropbtn bg-light"><i class="fas fa-book"></i> Quản lý sản phẩm</button>
+                            <div class="dropdown-content">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sach" asp-action="thongKeSach">Quản lý sách</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sach" asp-action="themTacGiaSach">Quản lý chi tiết sách</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sach" asp-action="thongKeLoaiSach">Quản lý loại sách</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TacGia" asp-action="thongKeTacGia">Quản lý tác giả</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="NhaXuatBan" asp-action="thongKeNhaXuatBan">Quản lý nhà xuất bản</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn bg-light"><i class="fas fa-user"></i> Quản lý tài khoản</button>
+                            <div class="dropdown-content">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TaiKhoanKhachHang" asp-action="thongKeTaiKhoan">Quản lý tài khoản khách hàng</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TaiKhoanNhanVien" asp-action="thongKeTaiKhoan">Quản lý tài khoản nhân viên</a>
+                            </div>
+                        </div>
+                        <li style="margin-top: 8px;" class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DonHang" asp-action="thongKeDonHang"><i class="fas fa-file-invoice-dollar"></i> Quản lý đơn hàng</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="float-right">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#"><i class="fas fa-bell"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TaiKhoanNhanVien" asp-action="suaThongTinCaNhan"><i class="fas fa-user-circle"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-light">
+        <div class="container">
+            &copy; 2020 - Websites <a asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach">HoangLinhBooks</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

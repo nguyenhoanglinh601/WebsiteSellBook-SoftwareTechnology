@@ -1,0 +1,83 @@
+﻿@model WebsiteBanSach.Models.TaiKhoanKhachHang
+
+@{
+    ViewData["Title"] = "Cập nhập trạng thái tài khoản";
+    Layout = "_LayoutNV";
+}
+
+<h1>Cập nhập trạng thái tài khoản</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="TaiKhoanKhachHang" asp-action="suaTrangThaiTaiKhoan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idKhachHang" />
+            <input asp-for="matKhau" class="form-control" hidden />
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="tenKhachHang" class="control-label"></label>
+                <input asp-for="@Model.tenKhachHang" class="form-control" disabled />
+                <input asp-for="tenKhachHang" class="form-control" hidden />
+                <span asp-validation-for="tenKhachHang" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="ngaySinh" class="control-label"></label>
+                <input asp-for="@Model.ngaySinh" class="form-control" disabled />
+                <input asp-for="ngaySinh" class="form-control" hidden />
+                <span asp-validation-for="ngaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="gioiTinh" class="control-label"></label>
+                @foreach (string gioiTinhTam in new[] { "Nam", "Nữ", "Khác" })
+                {
+                    if (Model.gioiTinh == gioiTinhTam)
+                    {
+                        <input type="radio" value="@gioiTinhTam" checked disabled />@gioiTinhTam
+                        <input asp-for="gioiTinh" class="form-control" hidden />
+                    }
+                    else
+                    {
+                        <input type="radio" value="@gioiTinhTam" disabled />@gioiTinhTam
+                    }
+                }
+                <span asp-validation-for="gioiTinh" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="soDienThoai" class="control-label"></label>
+                <input asp-for="@Model.soDienThoai" class="form-control" disabled />
+                <input asp-for="soDienThoai" class="form-control" hidden />
+                <span asp-validation-for="soDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="diaChi" class="control-label"></label>
+                <input asp-for="@Model.diaChi" class="form-control" disabled />
+                <input asp-for="diaChi" class="form-control" hidden />
+                <span asp-validation-for="diaChi" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="diemMuaHang" class="control-label"></label>
+                <input asp-for="@Model.diemMuaHang" class="form-control" disabled />
+                <input asp-for="diemMuaHang" class="form-control" hidden />
+                <span asp-validation-for="diemMuaHang" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-left">
+                <label asp-for="taiKhoan" class="control-label"></label>
+                <input asp-for="@Model.taiKhoan" class="form-control" disabled />
+                <input asp-for="taiKhoan" class="form-control" hidden />
+                <span asp-validation-for="taiKhoan" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check col-md-12 float-left ml-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="trangThai" /> @Html.DisplayNameFor(model => model.trangThai)
+                </label>
+            </div>
+            <div class="form-group col-md-12 float-left">
+                <input type="submit" asp-controller="TaiKhoanKhachHang" asp-action="suaTrangThaiTaiKhoan" value="Cập nhập" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

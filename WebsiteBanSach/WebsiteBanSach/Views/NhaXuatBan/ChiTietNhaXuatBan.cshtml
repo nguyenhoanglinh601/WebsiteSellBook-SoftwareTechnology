@@ -1,0 +1,43 @@
+﻿@model WebsiteBanSach.Models.NhaXuatBan
+
+@{
+    ViewData["Title"] = "Thông tin nhà xuất bản";
+}
+
+<h1>Thông tin nhà xuất bản</h1>
+<hr />
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ten)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ten)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.soDienThoai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.soDienThoai)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.diaChi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.diaChi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.website)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.website)
+        </dd>
+    </dl>
+</div>
+

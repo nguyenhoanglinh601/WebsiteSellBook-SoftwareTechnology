@@ -1,0 +1,38 @@
+﻿@model WebsiteBanSach.Models.TacGia
+
+@{
+    ViewData["Title"] = "Thông tin tác giả";
+    Layout = "_LayoutNV";
+}
+
+<h1>Thông tin tác giả</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ten)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ten)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.gioiTinh)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.gioiTinh)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.namSinh)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.namSinh)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.quocTich)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.quocTich)
+        </dd>
+    </dl>
+</div>
