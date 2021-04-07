@@ -10,7 +10,6 @@ namespace WebsiteBanSach.Models.ViewModel
     {
         public TaiKhoanKhachHang taiKhoanKhachHang { get; set; }
 
-        [Required]
         public string xacNhanMatKhau { get; set; }
     }
 }

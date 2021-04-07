@@ -1,6 +1,12 @@
 ﻿@model IEnumerable<WebsiteBanSach.Models.ViewModel.DonHangVaTrangThai>
 
 @{
+    string trangChu = "sach-hienthidanhsachsach-Trang chủ;";
+    string donHang = "Đơn hàng";
+    string Navigation = trangChu + donHang;
+
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Danh sách đơn đặt hàng";
 
     string dinhDangTien(decimal gia)

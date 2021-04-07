@@ -1,8 +1,30 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.ThongKeSach
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "Thống kê sách;";
+    string Navigation = level1 + level2;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thống kê sách";
     Layout = "_LayoutNV";
+
+    string dinhDangTien(decimal gia)
+    {
+        string giaBanVND = "";
+        string giaBan = Convert.ToInt32(gia).ToString();
+        var j = 0;
+        for (var i = giaBan.Length - 1; i >= 0; i--)
+        {
+            giaBanVND = giaBan[i] + giaBanVND;
+            j++;
+            if (j % 3 == 0 && i != 0)
+            {
+                giaBanVND = "." + giaBanVND;
+            }
+        }
+        return giaBanVND;
+    }
 }
 
 <h1>Thống kê sách</h1>
@@ -10,78 +32,80 @@
 <p>
     <a class="btn btn-success" asp-action="themSach">Thêm sách</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Tên sách
-            </th>
-            <th>
-                Nhà xuất bản
-            </th>
-            <th>
-                Loại sách
-            </th>
-            <th>
-                Giá bán
-            </th>
-            <th>
-                Số lượng còn
-            </th>
-            <th>
-                Hình ảnh
-            </th>
-            <th>
-                Trạng thái
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.tapHopSach)
-        {
+<div style="overflow-x:auto;">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ten)
-                </td>
-                <td>
-                    @{
-                        foreach (NhaXuatBan NXB in Model.danhSachNXB)
-                        {
-                            if (item.idNhaXuatBan == NXB.idNhaXuatBan)
-                            {
-                                @Html.DisplayFor(modelNXB => NXB.ten)
-                            }
-                        }
-                    }
-                </td>
-                <td>
-                    @{
-                        foreach (LoaiSach loaiSach in Model.tapHopLoaiSach)
-                        {
-                            if (item.maLoai == loaiSach.idLoai)
-                            {
-                                @Html.DisplayFor(modelLoaiSach => loaiSach.tenLoai)
-                            }
-                        }
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.giaBan)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.soLuong)
-                </td>
-                <td>
-                    <img src="~/images/@Html.DisplayFor(modelItem => item.hinhAnh)">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.trangThai)
-                </td>
-                <td>
-                    <a class="btn btn-primary" href="./suaThongTinSach?id=@item.idSach&lanTaiBan=@item.lanTaiBan">Sửa</a>
-                </td>
+                <th>
+                    Tên sách
+                </th>
+                <th>
+                    Nhà xuất bản
+                </th>
+                <th>
+                    Loại sách
+                </th>
+                <th>
+                    Giá bán
+                </th>
+                <th>
+                    Số lượng còn
+                </th>
+                <th>
+                    Hình ảnh
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.tapHopSach)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ten)
+                    </td>
+                    <td>
+                        @{
+                            foreach (NhaXuatBan NXB in Model.danhSachNXB)
+                            {
+                                if (item.idNhaXuatBan == NXB.idNhaXuatBan)
+                                {
+                                    @Html.DisplayFor(modelNXB => NXB.ten)
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            foreach (LoaiSach loaiSach in Model.tapHopLoaiSach)
+                            {
+                                if (item.maLoai == loaiSach.idLoai)
+                                {
+                                    @Html.DisplayFor(modelLoaiSach => loaiSach.tenLoai)
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @dinhDangTien(item.giaBan) đ
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.soLuong)
+                    </td>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.hinhAnh)" style="max-width:150px;">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.trangThai)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="./suaThongTinSach?id=@item.idSach&lanTaiBan=@item.lanTaiBan">Sửa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

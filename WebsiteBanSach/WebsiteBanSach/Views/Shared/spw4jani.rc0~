@@ -1,0 +1,229 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HoangLinhBooks</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        .dropbtn {
+            background-color: white;
+            color: black;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content-account{
+            right: 0;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 8px 8px;
+                text-decoration: none;
+                display: block;
+                border-bottom: 1px solid gray;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: white;
+        }
+
+            .topnav a {
+                float: left;
+                display: block;
+                color: black;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                .topnav a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+                .topnav a.active {
+                    background-color: #2196F3;
+                    color: white;
+                }
+
+            .topnav .search-container {
+                float: right;
+            }
+
+            .topnav input[type=text] {
+                padding: 6px;
+                margin-top: 8px;
+                border: none;
+            }
+
+            .topnav .search-container button {
+                float: right;
+                padding: 6px 10px;
+                margin-top: 8px;
+                margin-right: 16px;
+                background: #ddd;
+                border: none;
+                cursor: pointer;
+            }
+
+                .topnav .search-container button:hover {
+                    background: #ccc;
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+            <div class="w-100 row p-0 m-0">
+                <div class="col-lg-8 pl-sm-5 m-0">
+                    <a style="font-size: 30px" class="navbar-brand" asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="all"><img style="max-width: 150px;" src="~/images/logo.png"></a>
+                    <button class="border-secondary navbar-toggler float-right mt-3" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1 mb-2">
+                            <li style="margin-top: 8px;" class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="all"><i class="fas fa-home"></i> Home</a>
+                            </li>
+                            <li style="margin-top: 8px;" class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="sach-ban-chay"><i class="fas fa-thumbs-up"></i> Sách bán chạy</a>
+                            </li>
+                            <li style="margin-top: 8px;" class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="sach-giam-gia"><i class="fas fa-tags"></i> Sách giảm giá</a>
+                            </li>
+                            <div class="dropdown">
+                                <button class="dropbtn bg-light">Thể loại <i class="fas fa-chevron-down"></i></button>
+                                <div class="dropdown-content">
+                                    <a asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="khoa-hoc">Khoa học</a>
+                                    <a asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="tinh-cam">Tình cảm - lãng mạn</a>
+                                    <a asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="trinh-tham">Trinh thám</a>
+                                    <a href="#">Viễn tưởng</a>
+                                    <a href="#">Thiên nhiên</a>
+                                    <a href="#">Học thuật</a>
+                                    <a href="#">Tâm lý - kỹ năng sống</a>
+                                    <a href="#">Kinh doanh</a>
+                                    <a href="#">Thể thao - nghệ thuật</a>
+                                    <a href="#">Văn hóa - tôn giáo</a>
+                                    <a href="#">Lịch sử - chính trị</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row col-lg-4 pl-sm-5 m-0 pt-lg-5" style="height: 40px;">
+                    <div class="col-8 search-container p-0 m-0">
+                        <divstyle ="border: 1px solid gray; border-radius:3px; height: 33px;">
+                            <form asp-controller="Sach" asp-action="hienThiDanhSachSach" method="get">
+                                <input style="width: 80%; height:30px; border:0px; padding: 0px;" type="text" placeholder="  Search..." name="tenSachTimKiem">
+                                <button style="width: 18%; height:30px; border:0px; padding: 0px;"><i class="fa fa-search"></i></button>
+                            </form>
+                        </divstyle>
+                        
+                    </div>
+                    <div class="row col-3 p-0 m-0 ml-4">
+                        <div class="col-4 p-0">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="GioHang" asp-action="xemGioHang"><i class="fas fa-shopping-cart"></i></a>
+                        </div>
+                        <div class="col-4 p-0">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DonHang" asp-action="hienThiDanhSachDonHang"><i class="fas fa-file-invoice-dollar"></i></a>
+                        </div>
+                        <div class="col-4 p-0">
+                            <div class="dropdown">
+                                <button class="dropbtn bg-light" style="padding:8.5px 13px; margin:0px;"><i class="fas fa-user-circle"></i></button>
+                                <div class="dropdown-content dropdown-content-account">
+                                    <a class="nav-link text-dark" asp-controller="TaiKhoanKhachHang" asp-action="suaThongTinCaNhan">Thông tin tài khoản</a>
+                                    <a class="nav-link text-dark" asp-controller="TaiKhoanKhachHang" asp-action="dangXuat">Đăng xuất</a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </nav>
+        <div class="w-100 mb-2" style="background-color:#F0F0F0; margin-top: -16px;">
+            <div class="container pl-3 pt-1 pb-1">
+                @{
+                    if (ViewBag.Navigation != null)
+                    {
+                        string NavigationArray = ViewBag.Navigation;
+                        foreach (string item in NavigationArray.Split(";"))
+                        {
+                            string[] elements = item.Split("-");
+                            if (elements.Length > 1)
+                            {
+                                <a class="nav-link text-dark d-inline-block p-0" asp-controller="@elements[0]" asp-action="@elements[1]">@elements[2] &#32;&rsaquo;&rsaquo;&#32; </a>
+                            }
+                            else
+                            {
+                                <b>@elements[0]</b>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </header>
+    <div class="container" style="padding-bottom: 150px;">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-light" style="padding-bottom: 90px; line-height: 1;">
+        <div class="container pt-2">
+            &copy; 2020 - Websites <a asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach">HoangLinhBooks</a>
+            <i class="fa fa-facebook-official w3-hover-opacity"></i>
+            <i class="fa fa-instagram w3-hover-opacity"></i>
+            <i class="fa fa-snapchat w3-hover-opacity"></i>
+            <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+            <i class="fa fa-twitter w3-hover-opacity"></i>
+            <i class="fa fa-linkedin w3-hover-opacity"></i>
+            <div class="float-sm-right">
+                <i style="line-height: 1.5;">
+                    The website is developed by Nguyen Hoang Linh<br />
+                    Contact:<br />
+                    &emsp;Email: nguyenhoanglinh308@gmail.com<br />
+                    &emsp;Phone number: 0969076447
+                </i>
+            </div>
+        </div>       
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

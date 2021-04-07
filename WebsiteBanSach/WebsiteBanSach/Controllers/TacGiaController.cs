@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebsiteBanSach.Data;
 using WebsiteBanSach.Models;
 using WebsiteBanSach.Models.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace WebsiteBanSach.Controllers
 {
@@ -23,7 +24,7 @@ namespace WebsiteBanSach.Controllers
         // GET: TacGia
         public async Task<IActionResult> ThongKeTacGia()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -33,7 +34,7 @@ namespace WebsiteBanSach.Controllers
         // GET: TacGia/Details/5
         public async Task<IActionResult> ChiTietTacGia(int? id)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -72,7 +73,7 @@ namespace WebsiteBanSach.Controllers
         // GET: TacGia/Create
         public IActionResult ThemTacGia()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -99,7 +100,7 @@ namespace WebsiteBanSach.Controllers
         // GET: TacGia/Edit/5
         public async Task<IActionResult> SuaTacGia(int? id)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -155,7 +156,7 @@ namespace WebsiteBanSach.Controllers
         // GET: TacGia/Delete/5
         public async Task<IActionResult> XoaTacGia(int? id)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }

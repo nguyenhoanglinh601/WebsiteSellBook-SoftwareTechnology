@@ -39,8 +39,7 @@ namespace WebsiteBanSach.Models
         [Required]
         [Display(Name = "Tài khoản")]
         public string taiKhoan { get; set; }
-
-        [Required]
+        
         [Display(Name = "Mật khẩu")]
         public string matKhau { get; set; }
 

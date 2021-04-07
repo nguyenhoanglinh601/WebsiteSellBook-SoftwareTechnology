@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebsiteBanSach.Models.ViewModel;
 using WebsiteBanSach.Models;
 using WebsiteBanSach.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebsiteBanSach.Controllers
 {
@@ -20,38 +22,48 @@ namespace WebsiteBanSach.Controllers
 
         public IActionResult themSachVaoGioHang(int idSach)
         {
-            
             var tapHopSach = _context.TapHopSach.ToList();
             
             foreach (Sach sach in tapHopSach)
             {
-
                 if (sach.idSach == idSach)
                 {
-                    
                     bool kiemTraGioHang = false;
 
-                    if(SessionKhachHang.gioHang.tapHopSanPham != null)
+                    if(!String.IsNullOrEmpty(HttpContext.Session.GetString("gioHang")))
                     {
-                        foreach (ThanhPhanGioHang thanhPhanGioHang in SessionKhachHang.gioHang.tapHopSanPham)
+                        string sessionGioHang = HttpContext.Session.GetString("gioHang");
+                        foreach (string thanhPhanGioHang in sessionGioHang.Split(";"))
                         {
+                            string[] thongTin = thanhPhanGioHang.Split("-");
+                            int idSachThem = Int32.Parse(thongTin[0]);
 
-                            if (thanhPhanGioHang.sach.idSach == sach.idSach)
+                            if (idSachThem == sach.idSach)
                             {
                                 kiemTraGioHang = true;
                             }
                         }
                     }
+                    else
+                    {
+                        HttpContext.Session.SetString("gioHang", "");
+                    }
                     
                     if (kiemTraGioHang == false)
                     {
-                        ThanhPhanGioHang thanhPhanGioHangThem = new ThanhPhanGioHang();
-                        thanhPhanGioHangThem.sach = sach;
-                        thanhPhanGioHangThem.soLuong = 1;
-                        SessionKhachHang.gioHang.tapHopSanPham.Add(thanhPhanGioHangThem);
-                        
-                    }
-                    
+                        if(String.IsNullOrEmpty(HttpContext.Session.GetString("gioHang")))
+                        {
+                            string sessionGioHang = HttpContext.Session.GetString("gioHang");
+                            sessionGioHang = sessionGioHang + idSach + "-" + 1;
+                            HttpContext.Session.SetString("gioHang", sessionGioHang);
+                        }
+                        else
+                        {
+                            string sessionGioHang = HttpContext.Session.GetString("gioHang");
+                            sessionGioHang = sessionGioHang + ";" + idSach + "-" + 1;
+                            HttpContext.Session.SetString("gioHang", sessionGioHang);
+                        }
+                    }   
                 }
             }
             return RedirectToAction(nameof(xemGioHang));
@@ -59,52 +71,144 @@ namespace WebsiteBanSach.Controllers
 
         public IActionResult xoaSachKhoiGioHang(int idSach)
         {
-            foreach(ThanhPhanGioHang thanhPhanGioHang in SessionKhachHang.gioHang.tapHopSanPham)
+            string gioHang = "";
+            string sessionGioHang = HttpContext.Session.GetString("gioHang");
+            foreach (string thanhPhanGioHang in sessionGioHang.Split(";"))
             {
-                
-                if (thanhPhanGioHang.sach.idSach == idSach)
+                string[] thongTin = thanhPhanGioHang.Split("-");
+                int idSachXoa = Int32.Parse(thongTin[0]);
+                int soLuong = Int32.Parse(thongTin[1]);
+
+                if (idSachXoa != idSach)
                 {
-                    SessionKhachHang.gioHang.tapHopSanPham.Remove(thanhPhanGioHang);
-                    return RedirectToAction(nameof(xemGioHang));
+                    if (gioHang == "")
+                    {
+                        gioHang = gioHang + idSachXoa + "-" + soLuong;
+                    }
+                    else
+                    {
+                        gioHang = gioHang + ";" + idSachXoa + "-" + soLuong;
+                    }
                 }
             }
+            HttpContext.Session.SetString("gioHang", gioHang);
             return RedirectToAction(nameof(xemGioHang));
         }
 
         public IActionResult xemGioHang()
         {
-            SessionKhachHang.gioHang.danhSachNXB = _context.TapHopNhaXuatBan.ToList();
-            SessionKhachHang.gioHang.tapHopLoaiSach = _context.TapHopLoaiSach.ToList();
-            return View("GioHang",SessionKhachHang.gioHang);
+            List<ThanhPhanGioHang> gioHang = new List<ThanhPhanGioHang>();
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("gioHang")))
+            {
+                string sessionGioHang = HttpContext.Session.GetString("gioHang");
+                foreach (string thanhPhanGioHangString in sessionGioHang.Split(";"))
+                {
+                    string[] thongTin = thanhPhanGioHangString.Split("-");
+                    int idSach = Int32.Parse(thongTin[0]);
+                    int soLuong = Int32.Parse(thongTin[1]);
+
+                    var sach = _context.TapHopSach.Where(s => s.idSach == idSach)
+                                 .Include(s => s.nhaXuatBan)
+                                 .Include(s => s.loaiSach)
+                                 .FirstOrDefault();
+
+                    ThanhPhanGioHang thanhPhanGioHang = new ThanhPhanGioHang();
+                    thanhPhanGioHang.sach = sach;
+                    thanhPhanGioHang.soLuong = soLuong;
+                    gioHang.Add(thanhPhanGioHang);
+                }
+            }
+            return View("GioHang",gioHang);
+        }
+
+        private bool thongTinSach(ThanhPhanGioHang thanhPhanGioHang,string thanhPhanGioHangString, int idSach)
+        {
+            string[] thongTin = thanhPhanGioHangString.Split("-");
+            int idSachSua = Int32.Parse(thongTin[0]);
+            int soLuong = Int32.Parse(thongTin[1]);
+
+            if (idSachSua == idSach)
+            {
+                var sach = _context.TapHopSach.Where(s => s.idSach == idSach)
+                                .Include(n => n.nhaXuatBan)
+                                .Include(l => l.loaiSach)
+                                .FirstOrDefault();
+
+                thanhPhanGioHang.sach = sach;
+                thanhPhanGioHang.soLuong = soLuong;
+                return true;
+            }
+            return false;
         }
 
         [HttpGet]
         public IActionResult suaGioHang(int idSach)
         {
-            foreach(ThanhPhanGioHang thanhPhanGioHang in SessionKhachHang.gioHang.tapHopSanPham)
+            try
             {
-                if(thanhPhanGioHang.sach.idSach == idSach)
+                string[] sessionGioHang = HttpContext.Session.GetString("gioHang").Split(";");
+                foreach (string thanhPhanGioHangString in sessionGioHang)
                 {
-                    thanhPhanGioHang.danhSachNXB = _context.TapHopNhaXuatBan.ToList();
-                    thanhPhanGioHang.tapHopLoaiSach = _context.TapHopLoaiSach.ToList();
+                    ThanhPhanGioHang thanhPhanGioHang = new ThanhPhanGioHang();
+                    bool ketQua = thongTinSach(thanhPhanGioHang, thanhPhanGioHangString, idSach);
+                    if (ketQua == true)
+                    {
+                        return View("./SuaGioHang", thanhPhanGioHang);
+                    }
+                }
+            }
+            catch (NullReferenceException)
+            {
+                string thanhPhanGioHangString = HttpContext.Session.GetString("gioHang");
+                ThanhPhanGioHang thanhPhanGioHang = new ThanhPhanGioHang();
+                bool ketQua = thongTinSach(thanhPhanGioHang, thanhPhanGioHangString, idSach);
+                if (ketQua == true)
+                {
                     return View("./SuaGioHang", thanhPhanGioHang);
                 }
             }
             return RedirectToAction(nameof(xemGioHang));
         }
 
+        private string thayDoiSoLuongSach(string gioHang, string thanhPhanGioHang, int idSach, int soLuong)
+        {
+            string[] thongTin = thanhPhanGioHang.Split("-");
+            int idSachCu = Int32.Parse(thongTin[0]);
+            int soLuongCu = Int32.Parse(thongTin[1]);
+
+            if(idSachCu != idSach)
+            {
+                soLuong = soLuongCu;
+            }
+            if (String.IsNullOrEmpty(gioHang))
+            {
+                gioHang = idSachCu + "-" + soLuong;
+            }
+            else
+            {
+                gioHang = gioHang + ";" + idSachCu + "-" + soLuong;
+            }
+            return gioHang;
+        }
+
         public IActionResult suaGioHang(int idSach, int soLuong)
         {
-            //ViewData["idSach"] = idSach + " - " + soLuong ;
-            //return View("../Debug");
-            foreach (ThanhPhanGioHang thanhPhanGioHang in SessionKhachHang.gioHang.tapHopSanPham)
+            string gioHang = "";
+            try
             {
-                if (thanhPhanGioHang.sach.idSach == idSach)
+                string sessionGioHang = HttpContext.Session.GetString("gioHang");
+                foreach (string thanhPhanGioHang in sessionGioHang.Split(";"))
                 {
-                    thanhPhanGioHang.soLuong = soLuong;
-                    break;
+                    gioHang = thayDoiSoLuongSach(gioHang, thanhPhanGioHang, idSach, soLuong);
                 }
             }
+            catch (NullReferenceException)
+            {
+                string thanhPhanGioHang = HttpContext.Session.GetString("gioHang");
+                gioHang = thayDoiSoLuongSach(gioHang, thanhPhanGioHang, idSach, soLuong);
+            }
+            
+            HttpContext.Session.SetString("gioHang", gioHang);
             return RedirectToAction(nameof(xemGioHang));
         }
     }

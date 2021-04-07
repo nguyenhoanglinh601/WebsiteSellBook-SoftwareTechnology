@@ -18,7 +18,6 @@ namespace WebsiteBanSach.Controllers
     public class TaiKhoanKhachHangController : Controller
     {
         private readonly WebBanSachContext _context;
-
         public TaiKhoanKhachHangController(WebBanSachContext context)
         {
             _context = context;
@@ -27,7 +26,7 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public IActionResult thongKeTaiKhoan(string tenKhachHangTimKiem, int? soTrang)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -84,42 +83,60 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public IActionResult suaThongTinCaNhan()
         {
-            if (SessionKhachHang.taiKhoan == null)
+            
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idKhachHang")))
             {
                 return View("../TaiKhoanKhachHang/DangNhap");
             }
 
-            TaiKhoanKhachHang taiKhoan = _context.TapHopTaiKhoanKhachHang.Find(SessionKhachHang.taiKhoan.idKhachHang);
+            int idKhachHang = Int32.Parse(HttpContext.Session.GetString("idKhachHang"));
+
+            TaiKhoanKhachHang taiKhoan = _context.TapHopTaiKhoanKhachHang.Find(idKhachHang);
             TaiKhoanDangKiKhachHang taiKhoanCapNhap = new TaiKhoanDangKiKhachHang();
             taiKhoanCapNhap.taiKhoanKhachHang = taiKhoan;
-            taiKhoanCapNhap.xacNhanMatKhau = taiKhoan.matKhau;
+            taiKhoanCapNhap.xacNhanMatKhau = "";
+
+            if (!String.IsNullOrEmpty((string)TempData["ThongDiepSuaTaiKhoanLoi"]))
+            {
+                ViewData["ThongDiepSuaTaiKhoanLoi"] = TempData["ThongDiepSuaTaiKhoanLoi"];
+            }
 
             return View("SuaThongTinCaNhan", taiKhoanCapNhap);
         }
 
         [HttpPost]
-        public IActionResult suaThongTinCaNhan(TaiKhoanKhachHang taiKhoanKhachHang, string xacNhanMatKhau)
+        public IActionResult suaThongTinCaNhanPost(TaiKhoanKhachHang taiKhoanKhachHang, string xacNhanMatKhau, string matKhauCu)
         {
             if (taiKhoanKhachHang.matKhau == xacNhanMatKhau)
             {
-                taiKhoanKhachHang.matKhau = MaHoa.MaHoaMD5(taiKhoanKhachHang.matKhau);
-                Console.WriteLine(taiKhoanKhachHang.matKhau);
-                _context.Update(taiKhoanKhachHang);
-                _context.SaveChanges();
-                return View("../Sach/hienThiDanhSachSach");
+                if (String.IsNullOrEmpty(taiKhoanKhachHang.matKhau))
+                {
+                    string matKhau = matKhauCu;
+                    taiKhoanKhachHang.matKhau = matKhau;
+
+                    _context.Update(taiKhoanKhachHang);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    taiKhoanKhachHang.matKhau = MaHoa.MaHoaMD5(taiKhoanKhachHang.matKhau);
+                    _context.Update(taiKhoanKhachHang);
+                    _context.SaveChanges();
+                }
+                
+                return Redirect("../Sach/hienThiDanhSachSach");
             }
             else
             {
-                ViewData["ThongDiepSuaTaiKhoanLoi"] = "Mật khẩu và xác nhận mật khẩu không trùng khớp";
-                return View();
-            }
-            
+                TempData["ThongDiepSuaTaiKhoanLoi"] = "Mật khẩu và xác nhận mật khẩu không trùng khớp";
+                return RedirectToAction(nameof(suaThongTinCaNhan));
+            }       
         }
 
         [HttpGet]
         public IActionResult suaTrangThaiTaiKhoan(int? idKhachHang)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -157,23 +174,29 @@ namespace WebsiteBanSach.Controllers
         }
 
         [HttpPost]
-        public IActionResult xacNhanDangNhap(object sender, TaiKhoanDangNhap taiKhoanDangNhap)
+        public IActionResult xacNhanDangNhap(TaiKhoanDangNhap taiKhoanDangNhap)
         {
             String matKhauDangNhap = MaHoa.MaHoaMD5(taiKhoanDangNhap.matKhau);
             var danhSachTaiKhoan = _context.TapHopTaiKhoanKhachHang.ToList();
             
             foreach(TaiKhoanKhachHang taiKhoanKhachHang in danhSachTaiKhoan)
             {
-                if (taiKhoanDangNhap.taiKhoan == taiKhoanKhachHang.taiKhoan && matKhauDangNhap == taiKhoanKhachHang.matKhau)
+                if (taiKhoanDangNhap.taiKhoan == taiKhoanKhachHang.taiKhoan && matKhauDangNhap == taiKhoanKhachHang.matKhau && taiKhoanKhachHang.trangThai==true)
                 {
-                    SessionKhachHang.taiKhoan = taiKhoanKhachHang;
-                    SessionNhanVien.taiKhoan = null;
-                    ViewData["ThongDiepDangNhapLoi"] = "";
+                    //Response.Cookies.Append("name", taiKhoanKhachHang.tenKhachHang);
+
+                    HttpContext.Session.SetString("idKhachHang", taiKhoanKhachHang.idKhachHang.ToString());
                     return Redirect("../Sach/hienThiDanhSachSach");
                 }
             }
             ViewData["ThongDiepDangNhapLoi"] = "Tài khoản hoặc mật khẩu không đúng";
             return View("dangNhap");
+        }
+
+        public IActionResult dangXuat()
+        {
+            HttpContext.Session.Remove("idKhachHang");
+            return RedirectToAction("dangNhap");
         }
     }
 }

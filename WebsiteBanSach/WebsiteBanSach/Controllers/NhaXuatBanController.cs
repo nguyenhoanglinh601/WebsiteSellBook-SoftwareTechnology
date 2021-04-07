@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebsiteBanSach.Data;
 using WebsiteBanSach.Models;
 using WebsiteBanSach.Models.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace WebsiteBanSach.Controllers
 {
@@ -23,7 +24,7 @@ namespace WebsiteBanSach.Controllers
         // GET: NhaXuatBan
         public async Task<IActionResult> ThongKeNhaXuatBan()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -49,11 +50,11 @@ namespace WebsiteBanSach.Controllers
 
             return View(nhaXuatBan);
         }
-
-        // GET: NhaXuatBan/Create
+        
+        [HttpGet]
         public IActionResult ThemNhaXuatBan()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -61,9 +62,6 @@ namespace WebsiteBanSach.Controllers
             return View();
         }
 
-        // POST: NhaXuatBan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ThemNhaXuatBan([Bind("idNhaXuatBan,ten,soDienThoai,diaChi,email,website")] NhaXuatBan nhaXuatBan)
@@ -77,10 +75,10 @@ namespace WebsiteBanSach.Controllers
             return View(nhaXuatBan);
         }
 
-        // GET: NhaXuatBan/Edit/5
+        [HttpGet]
         public async Task<IActionResult> SuaThongTinNXB(int? id)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -98,9 +96,6 @@ namespace WebsiteBanSach.Controllers
             return View(nhaXuatBan);
         }
 
-        // POST: NhaXuatBan/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SuaThongTinNXB(int id, [Bind("idNhaXuatBan,ten,soDienThoai,diaChi,email,website")] NhaXuatBan nhaXuatBan)
@@ -132,11 +127,11 @@ namespace WebsiteBanSach.Controllers
             }
             return View(nhaXuatBan);
         }
-
-        // GET: NhaXuatBan/Delete/5
+        
+        [HttpGet]
         public async Task<IActionResult> XoaNhaXuatBan(int? id)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -156,7 +151,6 @@ namespace WebsiteBanSach.Controllers
             return View(nhaXuatBan);
         }
 
-        // POST: NhaXuatBan/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> XoaNhaXuatBan(int id)

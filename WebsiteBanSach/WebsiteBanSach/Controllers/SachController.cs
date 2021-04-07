@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using WebsiteBanSach.Data;
 using WebsiteBanSach.Models;
 using WebsiteBanSach.Models.ViewModel;
+using WebsiteBanSach.Models.Helper;
 
 namespace WebsiteBanSach.Controllers
 {
     public class SachController : Controller
     {
         private readonly WebBanSachContext _context;
-        TaiKhoanKhachHang taiKhoanDangNhap = SessionKhachHang.taiKhoan;
 
         public SachController(WebBanSachContext context)
         {
@@ -23,16 +23,156 @@ namespace WebsiteBanSach.Controllers
         }
 
         public IActionResult hienThiDanhSachSach(string tenSachTimKiem, string tenSachDangTimKiem,
-            string tenLoai, string thuTuSapXep, int? soTrang)
+            string tenLoai, string thuTuSapXep, int? soTrang, string locSach)
         {
-            var tapHopSach = _context.TapHopSach.ToList();
+            ViewData["CurrentSort"] = thuTuSapXep;
+            if (tenSachTimKiem != null)
+            {
+                soTrang = 1;
+            }
+            else
+            {
+                tenSachTimKiem = tenSachDangTimKiem;
+            }
+            var tapHopSach = _context.TapHopSach.Where(t => t.trangThai==true);
+
+            if (String.IsNullOrEmpty(locSach))
+            {
+                if (String.IsNullOrEmpty(HttpContext.Session.GetString("locSach")))
+                {
+                    HttpContext.Session.SetString("locSach", "all");
+                }
+            }
+            else
+            {
+                HttpContext.Session.SetString("locSach", locSach);
+            }
+
+            locSach = HttpContext.Session.GetString("locSach");
+            switch (locSach.Split("$")[0])
+            {
+                case "sach-ban-chay":
+                    tapHopSach = sachBanChay(tapHopSach.ToList());
+                    break;
+                case "sach-giam-gia":
+                    tapHopSach = sachGiamGia(tapHopSach.ToList());
+                    break;
+                case "tinh-cam":
+                case "Tình cảm":
+                    tapHopSach = loaiSach(tapHopSach.ToList(), "tình cảm");
+                    break;
+                case "khoa-hoc":
+                case "Khoa học":
+                    tapHopSach = loaiSach(tapHopSach.ToList(), "khoa học");
+                    break;
+                case "trinh-tham":
+                case "Trinh thám":
+                    tapHopSach = loaiSach(tapHopSach.ToList(), "trinh thám");
+                    break;
+                case "nxb":
+                    tapHopSach = nhaXuatBan(tapHopSach.ToList(), locSach.Split("$")[1]);
+                    break;
+                default:
+                    break;
+            }
 
             if (!String.IsNullOrEmpty(tenSachTimKiem))
             {
-                tapHopSach = tapHopSach.Where(s => s.ten.Contains(tenSachTimKiem)).ToList();
+                tapHopSach = tapHopSach.Where(s => s.ten.Contains(tenSachTimKiem));
             }
 
-            return View("HienThiDanhSachSach", tapHopSach);
+            int pageSize = 12;
+            return View(PaginatedList<Sach>.CreateAsync(tapHopSach, soTrang ?? 1, pageSize));
+        }
+
+        private IQueryable<Sach> sachBanChay(List<Sach> tapHopSach)
+        {
+            List<ThanhPhanGioHang> danhSachSachDaBan = new List<ThanhPhanGioHang>();
+            var danhSachChiTietDonHang = _context.TapHopChiTietDonHang.ToList();
+
+            foreach(var chiTietDonHang in danhSachChiTietDonHang)
+            {
+                bool kiemTra = false;
+                if(danhSachSachDaBan !=null && !danhSachSachDaBan.Any())
+                {
+                    foreach (var sachDaBan in danhSachSachDaBan)
+                    {
+                        if (sachDaBan.sach.idSach == chiTietDonHang.idSach)
+                        {
+                            sachDaBan.soLuong = sachDaBan.soLuong + chiTietDonHang.soLuong;
+                            kiemTra = true;
+                        }
+                    }
+                }
+                
+                if (kiemTra == false)
+                {
+                    ThanhPhanGioHang sachDaBan = new ThanhPhanGioHang();
+                    var sach = _context.TapHopSach.Where(i => i.idSach == chiTietDonHang.idSach).FirstOrDefault();
+                    sachDaBan.sach = sach;
+                    sachDaBan.soLuong = chiTietDonHang.soLuong;
+
+                    danhSachSachDaBan.Add(sachDaBan);
+                }
+            }
+
+            danhSachSachDaBan = danhSachSachDaBan.OrderByDescending(i => i.soLuong).ToList();
+
+            List<Sach> danhSachSachBanChay = new List<Sach>();
+            foreach(var sachDaBan in danhSachSachDaBan)
+            {
+                danhSachSachBanChay.Add(sachDaBan.sach);
+            }
+
+            return danhSachSachBanChay.AsQueryable();
+        }
+
+        private IQueryable<Sach> sachGiamGia(List<Sach> tapHopSach)
+        {
+            var tapHopChiTietDonHang = _context.TapHopChiTietDonHang.ToList();
+            List<Sach> tapHopSachGiamGia = new List<Sach>();
+
+            foreach(var sach in tapHopSach)
+            {
+                foreach(var chiTietDonHang in tapHopChiTietDonHang)
+                {
+                    if(sach.idSach==chiTietDonHang.idSach && sach.giaBan < chiTietDonHang.giaBan)
+                    {
+                        tapHopSachGiamGia.Add(sach);
+                    }
+                }
+            }
+
+            return tapHopSachGiamGia.AsQueryable();
+        }
+
+        private IQueryable<Sach> loaiSach(List<Sach> tapHopSach, string loaiSach)
+        {
+            List<Sach> tapHopSachLoc = new List<Sach>();
+            int maLoai = _context.TapHopLoaiSach.Where(i => i.tenLoai == loaiSach).Select(i => i.idLoai).FirstOrDefault();
+            foreach(var sach in tapHopSach)
+            {
+                if (sach.maLoai == maLoai)
+                {
+                    tapHopSachLoc.Add(sach);
+                }
+            }
+            return tapHopSachLoc.AsQueryable();
+        }
+
+        private IQueryable<Sach> nhaXuatBan(List<Sach> tapHopSach, string id)
+        {
+            int idNXB = Int32.Parse(id);
+            List<Sach> tapHopSachLoc = new List<Sach>();
+            foreach(var sach in tapHopSach)
+            {
+                if (sach.idNhaXuatBan == idNXB)
+                {
+                    tapHopSachLoc.Add(sach);
+                }
+            }
+
+            return tapHopSachLoc.AsQueryable();
         }
 
         public IActionResult xemThongTinSach(int? idSach, int? lanTaiBan)
@@ -49,7 +189,7 @@ namespace WebsiteBanSach.Controllers
 
         public IActionResult thongKeSach(string tenSachTimKiem)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -66,7 +206,7 @@ namespace WebsiteBanSach.Controllers
 
         public IActionResult thongKeLoaiSach()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -78,7 +218,7 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public IActionResult themSach()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -90,10 +230,12 @@ namespace WebsiteBanSach.Controllers
         }
 
         [HttpPost]
-        public IActionResult themSach([Bind("idSach,lanTaiBan,ten,idNhaXuatBan,maLoai,giaBan,soLuong,moTa,hinhAnh,trangThai")] Sach sach)
+        public IActionResult themSach([Bind("idSach,lanTaiBan,ten,idNhaXuatBan,maLoai,giaBan,soLuong,moTa,hinhAnh,trangThai,nhaXuatBan,loaiSach")] Sach sach)
         {
             if (ModelState.IsValid)
             {
+                sach.loaiSach = _context.TapHopLoaiSach.Where(l => l.idLoai == sach.maLoai).FirstOrDefault();
+                sach.nhaXuatBan = _context.TapHopNhaXuatBan.Where(n => n.idNhaXuatBan == sach.idNhaXuatBan).FirstOrDefault();
                 _context.Add(sach);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(thongKeSach));
@@ -104,7 +246,7 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public IActionResult themLoaiSach()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -128,7 +270,7 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public async Task<IActionResult> suaThongTinSach(int? id, int? lanTaiBan)
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -186,7 +328,7 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public IActionResult suaLoaiSach()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }
@@ -202,7 +344,7 @@ namespace WebsiteBanSach.Controllers
         [HttpGet]
         public IActionResult themTacGiaSach()
         {
-            if (SessionNhanVien.taiKhoan == null)
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("idNhanVien")))
             {
                 return View("../TaiKhoanNhanVien/DangNhap");
             }

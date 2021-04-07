@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.NhaXuatBan
 
 @{
+    string trangChu = "donhang-thongkedonhang-Trang chủ;";
+    string nxb = "nhaxuatban-thongkenhaxuatban-Thống kê nhà xuất bản;";
+    string thongTinNXB = "Thông tin nhà xuất bản";
+    string Navigation = trangChu + nxb + thongTinNXB;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thông tin nhà xuất bản";
 }
 
@@ -8,36 +14,39 @@
 <hr />
 <div>
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ten)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ten)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.soDienThoai)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.soDienThoai)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.diaChi)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.diaChi)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.email)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.email)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.website)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.website)
         </dd>
     </dl>
+    <a class="font-italic text-info" style="text-decoration:none;" asp-controller="sach" asp-action="hienThiDanhSachSach" asp-route-locSach="nxb$@Model.idNhaXuatBan">
+        Xem thêm sách của nhà xuất bản @Model.ten
+    </a>
 </div>
 

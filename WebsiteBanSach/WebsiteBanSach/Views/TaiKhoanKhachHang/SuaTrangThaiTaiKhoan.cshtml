@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.TaiKhoanKhachHang
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "taikhoankhachhang-thongketaikhoan-Thống kê tài khoản;";
+    string level3 = "Sửa trạng thái tài khoản";
+    string Navigation = level1 + level2 + level3;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Cập nhập trạng thái tài khoản";
     Layout = "_LayoutNV";
 }
@@ -27,7 +33,7 @@
                 <span asp-validation-for="ngaySinh" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6 float-left">
-                <label asp-for="gioiTinh" class="control-label"></label>
+                <label asp-for="gioiTinh" class="control-label"></label><br />
                 @foreach (string gioiTinhTam in new[] { "Nam", "Nữ", "Khác" })
                 {
                     if (Model.gioiTinh == gioiTinhTam)

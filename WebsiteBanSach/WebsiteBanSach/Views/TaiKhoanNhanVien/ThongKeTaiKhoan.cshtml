@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<WebsiteBanSach.Models.TaiKhoanNhanVien>
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "Thống kê tài khoản nhân viên";
+    string Navigation = level1 + level2;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Index";
     Layout = "_LayoutNV";
 }
@@ -15,55 +20,52 @@
         <input type="submit" value="Tìm kiếm" />
     </p>
 </form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.idNhanVien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tenNhanVien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.soDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.vaiTro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.trangThai)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div style="overflow-x:auto;">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.idNhanVien)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tenNhanVien)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.soDienThoai)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.vaiTro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.trangThai)
-                </td>
-                <td>
-                    <a style="width: 50px;" class="btn btn-primary" value="Sửa" asp-controller="TaiKhoanNhanVien" asp-action="suaTrangThaiTaiKhoan" asp-route-idNhanVien="@item.idNhanVien">Sửa</a>
-                </td>
-                @*<td>
-                        <a asp-action="Edit" asp-route-id="@item.idNhanVien">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.idNhanVien">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.idNhanVien">Delete</a>
-                    </td>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.idNhanVien)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tenNhanVien)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.soDienThoai)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.vaiTro)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.trangThai)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idNhanVien)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tenNhanVien)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.soDienThoai)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.vaiTro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.trangThai)
+                    </td>
+                    <td>
+                        <a style="width: 50px;" class="btn btn-primary" value="Sửa" asp-controller="TaiKhoanNhanVien" asp-action="suaTrangThaiTaiKhoan" asp-route-idNhanVien="@item.idNhanVien">Sửa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

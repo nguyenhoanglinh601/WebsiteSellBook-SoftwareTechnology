@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.SachNXBLoai
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "sach-thongkesach-Thống kê sách;";
+    string level3 = "Cập nhập thông tin sách";
+    string Navigation = level1 + level2 + level3;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Sửa thông tin sách";
     Layout = "_LayoutNV";
 }

@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.DonHangVaTrangThai
 
 @{
+    string trangChu = "sach-hienthidanhsachsach-Trang chủ;";
+    string donHang = "donHang-hienthidanhsachdonhang-Đơn hàng;";
+    string chiTietDonHang = "Chi tiết đơn hàng";
+    string Navigation = trangChu + donHang + chiTietDonHang;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Xem đơn hàng";
     string[] cacTrangThai = new string[] { "Đang xử lý", "Đã tiếp nhận", "Chuyển giao hàng", "Đã giao hàng", "Hủy" };
     int intTrangThai = 0;
@@ -69,79 +75,81 @@
 <hr />
 <h2>Danh sách sản phẩm đặt</h2>
 <br />
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Mã sách
-            </th>
-            <th>
-                Lần tái bản
-            </th>
-            <th>
-                Tên sách
-            </th>
-            <th>
-                Loại sách
-            </th>
-            <th>
-                NXB
-            </th>
-            <th>
-                Số lượng
-            </th>
-            <th>
-                Giá Bán
-            </th>
-            <th>
-                Thành tiền
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.gioHang)
-        {
-            var x = @item.sach.giaBan * @item.soLuong;
+<div style="overflow-x:auto;">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @item.sach.idSach
-                </td>
-                <td>
-                    @item.sach.lanTaiBan
-                </td>
-                <td>
-                    @item.sach.ten
-                </td>
-                <td>
-                    @foreach (var loaiSach in item.tapHopLoaiSach)
-                    {
-                        if (item.sach.maLoai == loaiSach.idLoai)
-                        {
-                            @loaiSach.tenLoai
-                        }
-                    }
-                </td>
-                <td>
-                    @foreach (var NXB in item.danhSachNXB)
-                    {
-                        if (item.sach.idNhaXuatBan == NXB.idNhaXuatBan)
-                        {
-                            @NXB.ten
-                        }
-                    }
-                </td>
-                <td>
-                    @item.soLuong
-                </td>
-                <td>
-                    @dinhDangTien(item.sach.giaBan) đ
-                </td>
-                <td>
-                    <p>@dinhDangTien(x) đ</p>
-                </td>
+                <th>
+                    Mã sách
+                </th>
+                <th>
+                    Lần tái bản
+                </th>
+                <th>
+                    Tên sách
+                </th>
+                <th>
+                    Loại sách
+                </th>
+                <th>
+                    NXB
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Giá Bán
+                </th>
+                <th>
+                    Thành tiền
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
-<hr />
+        </thead>
+        <tbody>
+            @foreach (var item in Model.gioHang)
+            {
+                var x = @item.sach.giaBan * @item.soLuong;
+                <tr>
+                    <td>
+                        @item.sach.idSach
+                    </td>
+                    <td>
+                        @item.sach.lanTaiBan
+                    </td>
+                    <td>
+                        @item.sach.ten
+                    </td>
+                    <td>
+                        @foreach (var loaiSach in item.tapHopLoaiSach)
+                        {
+                            if (item.sach.maLoai == loaiSach.idLoai)
+                            {
+                                @loaiSach.tenLoai
+                            }
+                        }
+                    </td>
+                    <td>
+                        @foreach (var NXB in item.danhSachNXB)
+                        {
+                            if (item.sach.idNhaXuatBan == NXB.idNhaXuatBan)
+                            {
+                                @NXB.ten
+                            }
+                        }
+                    </td>
+                    <td>
+                        @item.soLuong
+                    </td>
+                    <td>
+                        @dinhDangTien(item.sach.giaBan) đ
+                    </td>
+                    <td>
+                        <p>@dinhDangTien(x) đ</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    <hr />
 

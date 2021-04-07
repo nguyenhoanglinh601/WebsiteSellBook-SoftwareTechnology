@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.SachTacGia
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "sach-thongkesach-Thống kê sách;";
+    string level3 = "Thêm tác giả sách";
+    string Navigation = level1 + level2 + level3;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thêm tác giả sách";
     Layout = "_LayoutNV";
 }

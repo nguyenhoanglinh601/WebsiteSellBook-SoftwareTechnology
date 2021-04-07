@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.NhaXuatBan
 
 @{
+    string trangChu = "donhang-thongkedonhang-Trang chủ;";
+    string nxb = "nhaxuatban-thongkenhaxuatban-Thống kê nhà xuất bản;";
+    string thongTinNXB = "Thêm nhà xuất bản";
+    string Navigation = trangChu + nxb + thongTinNXB;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thêm nhà xuất bản";
     Layout = "_LayoutNV";
 }

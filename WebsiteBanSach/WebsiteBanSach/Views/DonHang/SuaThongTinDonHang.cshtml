@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.DonHang
 
 @{
+    string trangChu = "sach-hienthidanhsachsach-Trang chủ;";
+    string donHang = "donhang-hienthidanhsachdonhang-Đơn hàng;";
+    string capNhapDonHang = "Cập nhập đơn hàng";
+    string Navigation = trangChu + donHang + capNhapDonHang;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Cập nhập thông tin đơn hàng";
 }
 

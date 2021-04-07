@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,8 +12,7 @@
         .dropbtn {
             background-color: white;
             color: black;
-            padding: 16px;
-            font-size: 15px;
+            margin-top: 15px;
             border: none;
             border-radius: 10px;
         }
@@ -31,11 +31,16 @@
             z-index: 1;
         }
 
+        .dropdown-content-account{
+            right: 0;
+        }
+
             .dropdown-content a {
                 color: black;
                 padding: 8px 8px;
                 text-decoration: none;
                 display: block;
+                border-bottom: 1px solid gray;
             }
 
                 .dropdown-content a:hover {
@@ -61,7 +66,6 @@
                 text-align: center;
                 padding: 14px 16px;
                 text-decoration: none;
-                font-size: 17px;
             }
 
                 .topnav a:hover {
@@ -81,7 +85,6 @@
             .topnav input[type=text] {
                 padding: 6px;
                 margin-top: 8px;
-                font-size: 17px;
                 border: none;
             }
 
@@ -91,7 +94,6 @@
                 margin-top: 8px;
                 margin-right: 16px;
                 background: #ddd;
-                font-size: 17px;
                 border: none;
                 cursor: pointer;
             }
@@ -104,73 +106,104 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
-            <div class="container">
-                <a style="font-size: 30px" class="navbar-brand" asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach">HoangLinhBooks</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li style="margin-top: 8px;" class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach"><i class="fas fa-home"></i> Home</a>
-                        </li>
-                        <li style="margin-top: 8px;" class="nav-item">
-                            <a class="nav-link text-dark" href="#"><i class="fas fa-thumbs-up"></i> Sách bán chạy</a>
-                        </li>
-                        <li style="margin-top: 8px;" class="nav-item">
-                            <a class="nav-link text-dark" href="#"><i class="fas fa-tags"></i> Sách giảm giá</a>
-                        </li>
-                        <div class="dropdown">
-                            <button class="dropbtn bg-light">Thể loại <i class="fas fa-chevron-down"></i></button>
-                            <div class="dropdown-content">
-                                <a href="#">Khoa học</a>
-                                <a href="#">Tình cảm - lãng mạn</a>
-                                <a href="#">Viễn tưởng</a>
-                                <a href="#">Thiên nhiên</a>
-                                <a href="#">Học thuật</a>
-                                <a href="#">Tâm lý - kỹ năng sống</a>
-                                <a href="#">Kinh doanh</a>
-                                <a href="#">Thể thao - nghệ thuật</a>
-                                <a href="#">Văn hóa - tôn giáo</a>
-                                <a href="#">Lịch sử - chính trị</a>
+            <div class="w-100 row p-0 m-0">
+                <div class="col-lg-8 pl-sm-5 m-0">
+                    <a style="font-size: 30px" class="navbar-brand" asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="all"><img style="min-width: 245px;" src="~/images/logo.png"></a>
+                    <button class="border-secondary navbar-toggler float-right mt-3" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1 mb-2">
+                            <li style="margin-top: 8px;" class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="all"><i class="fas fa-home"></i> Home</a>
+                            </li>
+                            <li style="margin-top: 8px;" class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="sach-ban-chay"><i class="fas fa-thumbs-up"></i> Sách bán chạy</a>
+                            </li>
+                            <li style="margin-top: 8px;" class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="sach-giam-gia"><i class="fas fa-tags"></i> Sách giảm giá</a>
+                            </li>
+                            <div class="dropdown">
+                                <button class="dropbtn bg-light">Thể loại <i class="fas fa-chevron-down"></i></button>
+                                <div class="dropdown-content">
+                                    <a asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="khoa-hoc">Khoa học</a>
+                                    <a asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="tinh-cam">Tình cảm - lãng mạn</a>
+                                    <a asp-controller="Sach" asp-action="hienThiDanhSachSach" asp-route-locSach="trinh-tham">Trinh thám</a>
+                                    <a href="#">Viễn tưởng</a>
+                                    <a href="#">Thiên nhiên</a>
+                                    <a href="#">Học thuật</a>
+                                    <a href="#">Tâm lý - kỹ năng sống</a>
+                                    <a href="#">Kinh doanh</a>
+                                    <a href="#">Thể thao - nghệ thuật</a>
+                                    <a href="#">Văn hóa - tôn giáo</a>
+                                    <a href="#">Lịch sử - chính trị</a>
+                                </div>
                             </div>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row col-lg-4 pl-sm-5 m-0 pt-lg-5" style="height: 40px;">
+                    <div class="col-8 search-container p-0 m-0">
+                        <div style ="border: 1px solid gray; border-radius:3px; height: 33px;">
+                            <form asp-controller="Sach" asp-action="hienThiDanhSachSach" method="get">
+                                <input style="width: 80%; height:30px; border:0px; padding: 0px;" type="text" placeholder="  Search..." name="tenSachTimKiem">
+                                <button style="width: 17%; height:30px; border:0px; padding: 0px;"><i class="fa fa-search"></i></button>
+                            </form>
                         </div>
                         
-                    </ul>
-                </div>
-                <div class="float-right">
-                    <ul class="navbar-nav">
-                        <div class="topnav bg-light">
-                            <div style="margin-top: -5px;" class="search-container">
-                                <form asp-controller="Sach" asp-action="hienThiDanhSachSach" method="get">
-                                    <input style="border: 1px solid; border-right: 0px; height:30px;" type="text" placeholder="Search.." name="tenSachTimKiem">
-                                    <button style="border: 1px solid;  border-left: 0px; height:30px;" type="submit"><i class="fa fa-search"></i></button>
-                                </form>
+                    </div>
+                    <div class="row col-3 p-0 m-0 ml-4">
+                        <div class="col-4 p-0">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="GioHang" asp-action="xemGioHang"><i class="fas fa-shopping-cart"></i></a>
+                        </div>
+                        <div class="col-4 p-0">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DonHang" asp-action="hienThiDanhSachDonHang"><i class="fas fa-file-invoice-dollar"></i></a>
+                        </div>
+                        <div class="col-4 p-0">
+                            <div class="dropdown">
+                                <button class="dropbtn bg-light" style="padding:8.5px 13px; margin:0px;"><i class="fas fa-user-circle"></i></button>
+                                <div class="dropdown-content dropdown-content-account">
+                                    <a class="nav-link text-dark" asp-controller="TaiKhoanKhachHang" asp-action="suaThongTinCaNhan">Thông tin tài khoản</a>
+                                    <a class="nav-link text-dark" asp-controller="TaiKhoanKhachHang" asp-action="dangXuat">Đăng xuất</a>
+                                </div>
                             </div>
                         </div>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GioHang" asp-action="xemGioHang"><i class="fas fa-shopping-cart"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DonHang" asp-action="hienThiDanhSachDonHang"><i class="fas fa-file-invoice-dollar"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="TaiKhoanKhachHang" asp-action="suaThongTinCaNhan"><i class="fas fa-user-circle"></i></a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
+        <div class="w-100 mb-2" style="background-color:#F0F0F0; margin-top: -16px;">
+            <div class="container pl-3 pt-1 pb-1">
+                @{
+                    if (ViewBag.Navigation != null)
+                    {
+                        string NavigationArray = ViewBag.Navigation;
+                        foreach (string item in NavigationArray.Split(";"))
+                        {
+                            string[] elements = item.Split("-");
+                            if (elements.Length > 1)
+                            {
+                                <a class="nav-link text-dark d-inline-block p-0" asp-controller="@elements[0]" asp-action="@elements[1]">@elements[2] &#32;&rsaquo;&rsaquo;&#32; </a>
+                            }
+                            else
+                            {
+                                <b>@elements[0]</b>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
     </header>
-    <div class="container">
+    <div class="container" style="padding-bottom: 150px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted bg-light">
-        <div class="container">
+    <footer class="border-top footer text-muted bg-light" style="padding-bottom: 90px; line-height: 1;">
+        <div class="container pt-2">
             &copy; 2020 - Websites <a asp-area="" asp-controller="Sach" asp-action="hienThiDanhSachSach">HoangLinhBooks</a>
             <i class="fa fa-facebook-official w3-hover-opacity"></i>
             <i class="fa fa-instagram w3-hover-opacity"></i>
@@ -178,7 +211,15 @@
             <i class="fa fa-pinterest-p w3-hover-opacity"></i>
             <i class="fa fa-twitter w3-hover-opacity"></i>
             <i class="fa fa-linkedin w3-hover-opacity"></i>
-        </div>
+            <div class="float-sm-right">
+                <i style="line-height: 1.5;">
+                    The website is developed by Nguyen Hoang Linh<br />
+                    Contact:<br />
+                    &emsp;Email: nguyenhoanglinh308@gmail.com<br />
+                    &emsp;Phone number: 0969076447
+                </i>
+            </div>
+        </div>       
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

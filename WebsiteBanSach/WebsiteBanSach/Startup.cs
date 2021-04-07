@@ -25,6 +25,11 @@ namespace WebsiteBanSach
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);//You can set Time   
+            });
+            services.AddMvc();
             services.AddControllersWithViews();
             services.AddDbContext<WebBanSachContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("WebBanSachContext")));
@@ -49,6 +54,8 @@ namespace WebsiteBanSach
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

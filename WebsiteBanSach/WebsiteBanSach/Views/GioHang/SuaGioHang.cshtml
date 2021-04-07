@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.ThanhPhanGioHang
 
 @{
+    string trangChu = "sach-hienthidanhsachsach-Trang chủ;";
+    string gioHang = "giohang-xemgiohang-Giỏ hàng;";
+    string capNhapGioHang = "Cập nhập giỏ hàng";
+    string Navigation = trangChu + gioHang + capNhapGioHang;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Sửa giỏ hàng";
 
     string dinhDangTien(decimal gia)
@@ -36,23 +42,11 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Loại sách</label>
-                @foreach (var loaiSach in Model.tapHopLoaiSach)
-                {
-                    if (Model.sach.maLoai == loaiSach.idLoai)
-                    {
-                        <input value="@loaiSach.tenLoai" class="form-control" disabled />
-                    }
-                }
+                <input value="@Model.sach.loaiSach.tenLoai" class="form-control" disabled />
             </div>
             <div class="form-group">
                 <label class="control-label">Nhà xuất bản</label>
-                @foreach (var NXB in Model.danhSachNXB)
-                {
-                    if (Model.sach.idNhaXuatBan == NXB.idNhaXuatBan)
-                    {
-                        <input value="@NXB.ten" class="form-control" disabled />
-                    }
-                }
+                <input value="@Model.sach.nhaXuatBan.ten" class="form-control" disabled />
             </div>
             <div class="form-group">
                 <label class="control-label">Giá bán</label>

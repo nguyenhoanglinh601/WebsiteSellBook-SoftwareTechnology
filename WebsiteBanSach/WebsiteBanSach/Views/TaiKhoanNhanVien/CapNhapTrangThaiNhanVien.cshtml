@@ -1,11 +1,17 @@
 ﻿@model WebsiteBanSach.Models.TaiKhoanNhanVien
 
 @{
-    ViewData["Title"] = "Thêm tài khoản";
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "taikhoannhanvien-thongketaikhoan-Thống kê tài khoản nhân viên;";
+    string level3 = "Cập nhập trạng thái";
+    string Navigation = level1 + level2 + level3;
+    ViewBag.Navigation = Navigation;
+    
+    ViewData["Title"] = "Cập nhập trạng thái";
     Layout = "_LayoutNV";
 }
 
-<h1>Thêm tài khoản</h1>
+<h1>Cập nhập trạng thái</h1>
 
 <h4>Thông tin cá nhân</h4>
 <hr />
@@ -17,7 +23,7 @@
             <input type="hidden" asp-for="idNhanVien" />
             <input type="hidden" asp-for="tenNhanVien" />
             <input type="hidden" asp-for="soDienThoai" />
-            <input type="hidden" asp-for="matKhau" />
+            <input type="hidden" name="matKhauCu" value="@Model.matKhau" />
             <div class="form-group">
                 <label asp-for="tenNhanVien" class="control-label"></label>
                 <input asp-for="@Model.tenNhanVien" class="form-control" disabled />
@@ -37,11 +43,20 @@
                 }
                 <span asp-validation-for="vaiTro" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label class="control-label">mật khẩu mới</label>
+                <input type="password" name="matkhau" value="" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Xác nhận mật khẩu mới</label>
+                <input type="password" name="xacNhanMatKhau" value="" class="form-control"/>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="trangThai" /> @Html.DisplayNameFor(model => model.trangThai)
+                <input class="form-check-input" asp-for="trangThai" /> @Html.DisplayNameFor(model => model.trangThai)
                 </label>
             </div>
+            <p class="p-2" style="color: red;">@ViewData["thongBao"]</p>
             <div class="form-group">
                 <input type="submit" value="Cập nhập" class="btn btn-primary" />
                 <a href="./ThongKeTaiKhoan" class="btn btn-primary">Quay lại</a>

@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.SachNXBLoai
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "sach-thongkesach-Thống kê sách;";
+    string level3 = "Thêm sách";
+    string Navigation = level1 + level2 + level3;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thêm sách";
     Layout = "_LayoutNV";
 }
@@ -83,10 +89,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

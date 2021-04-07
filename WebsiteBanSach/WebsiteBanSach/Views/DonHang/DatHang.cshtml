@@ -1,6 +1,12 @@
-﻿@model WebsiteBanSach.Models.ViewModel.GioHang
+﻿@model IEnumerable<WebsiteBanSach.Models.ViewModel.ThanhPhanGioHang>
 
 @{
+    string trangChu = "sach-hienthidanhsachsach-Trang chủ;";
+    string gioHang = "giohang-xemgiohang-Giỏ hàng;";
+    string datHang = "Đặt hàng";
+    string Navigation = trangChu + gioHang + datHang;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Đặt hàng";
     decimal tongTien = 0;
 
@@ -45,77 +51,67 @@
             <br />
         </div>
         <h1>Giỏ hàng</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Tên sách
-                    </th>
-                    <th>
-                        Loại sách
-                    </th>
-                    <th>
-                        NXB
-                    </th>
-                    <th>
-                        Số lượng
-                    </th>
-                    <th>
-                        Giá Bán
-                    </th>
-                    <th>
-                        Thành tiền
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.tapHopSanPham)
-                {
-                    var x = @item.sach.giaBan * @item.soLuong;
+        <div style="overflow-x:auto;">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @item.sach.ten
-                        </td>
-                        <td>
-                            @foreach (var loaiSach in Model.tapHopLoaiSach)
-                            {
-                                if (item.sach.maLoai == loaiSach.idLoai)
-                                {
-                                    @loaiSach.tenLoai
-                                }
-                            }
-                        </td>
-                        <td>
-                            @foreach (var NXB in Model.danhSachNXB)
-                            {
-                                if (item.sach.idNhaXuatBan == NXB.idNhaXuatBan)
-                                {
-                                    @NXB.ten
-                                }
-                            }
-                        </td>
-                        <td>
-                            @item.soLuong
-                        </td>
-                        <td>
-                            @dinhDangTien(item.sach.giaBan) đ
-                        </td>
-                        <td>
-
-                            <p>@dinhDangTien(x) đ</p>
-                        </td>
+                        <th>
+                            Tên sách
+                        </th>
+                        <th>
+                            Loại sách
+                        </th>
+                        <th>
+                            NXB
+                        </th>
+                        <th>
+                            Số lượng
+                        </th>
+                        <th>
+                            Giá Bán
+                        </th>
+                        <th>
+                            Thành tiền
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <br />
-        @foreach (var item in Model.tapHopSanPham)
-        {
-            tongTien = tongTien + item.sach.giaBan * item.soLuong;
-        }
-        <br /><br />
-        <div class="form-group">
-            <input type="submit" value="Đặt hàng" class="btn btn-primary" />
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var x = @item.sach.giaBan * @item.soLuong;
+                        <tr>
+                            <td>
+                                @item.sach.ten
+                            </td>
+                            <td>
+                                @item.sach.loaiSach.tenLoai
+                            </td>
+                            <td>
+                                @item.sach.nhaXuatBan.ten
+                            </td>
+                            <td>
+                                @item.soLuong
+                            </td>
+                            <td>
+                                @dinhDangTien(item.sach.giaBan) đ
+                            </td>
+                            <td>
+
+                                <p>@dinhDangTien(x) đ</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
+            <br />
+            @foreach (var item in Model)
+            {
+                tongTien = tongTien + item.sach.giaBan * item.soLuong;
+            }
+            <br /><br />
+            <div class="form-group">
+                <input type="submit" value="Đặt hàng" class="btn btn-primary" />
+            </div>
     </form>
 </div>

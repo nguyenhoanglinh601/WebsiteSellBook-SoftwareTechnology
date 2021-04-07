@@ -1,7 +1,29 @@
 ﻿@model WebsiteBanSach.Models.ViewModel.ThongTinSach
 
 @{
+    string level1 = "sach-hienthidanhsachsach-Trang chủ;";
+    string level2 = "Thông tin sách";
+    string Navigation = level1 + level2;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thông tin sách";
+
+    string dinhDangTien(decimal gia)
+    {
+        string giaBanVND = "";
+        string giaBan = Convert.ToInt32(gia).ToString();
+        var j = 0;
+        for (var i = giaBan.Length - 1; i >= 0; i--)
+        {
+            giaBanVND = giaBan[i] + giaBanVND;
+            j++;
+            if (j % 3 == 0 && i != 0)
+            {
+                giaBanVND = "." + giaBanVND;
+            }
+        }
+        return giaBanVND;
+    }
 }
 
 <h1>Xem thông tin sách</h1>
@@ -10,9 +32,9 @@
     <hr />
     <div class="row">
         <div class="col-sm-4">
-            <img style="width:100%;" src="~/images/@Html.DisplayFor(model => model.sach.hinhAnh)" />
+            <img style="width:100%;" src="@Html.DisplayFor(model => model.sach.hinhAnh)" />
         </div>
-        <div class="col-sm-8 row">
+        <div class="col-sm-8 row mt-4">
             <div style="font-weight: bold;" class="col-sm-3">
                 Tên sách
             </div>
@@ -23,19 +45,19 @@
                 Nhà xuất bản
             </div>
             <div class="col-sm-9">
-                @Html.DisplayFor(model => model.NXB)
+                <a class="font-italic text-info" style="text-decoration:none;" asp-controller="nhaXuatBan" asp-action="chiTietNhaXuatBan" asp-route-id="@Model.sach.idNhaXuatBan">@Html.DisplayFor(model => model.NXB)</a>
             </div>
             <div style="font-weight: bold;" class="col-sm-3">
                 Loại sách
             </div>
             <div class="col-sm-9">
-                @Html.DisplayFor(model => model.loaiSach)
+                <a class="font-italic text-info" style="text-decoration:none;" asp-controller="sach" asp-action="hienThiDanhSachSach" asp-route-locSach="@Model.loaiSach">@Html.DisplayFor(model => model.loaiSach)</a>
             </div>
             <div style="font-weight: bold;" class="col-sm-3">
                 @Html.DisplayNameFor(model => model.sach.giaBan)
             </div>
             <div class="col-sm-9">
-                @Html.DisplayFor(model => model.sach.giaBan) đ
+                @dinhDangTien(Model.sach.giaBan) đ
             </div>
             <div style="font-weight: bold;" class="col-sm-3">
                 @Html.DisplayNameFor(model => model.sach.soLuong)
@@ -52,49 +74,10 @@
         </div>
     </div>
     <br/>
-    <div class="row">
+    <div class="row pl-4">
         <form asp-controller="GioHang" asp-action="themSachVaoGioHang" method="post">
             <input type="hidden" name="idSach" value="@Model.sach.idSach" />
             <input type="submit" value="Thêm vào giỏ" class="btn btn-danger" />
         </form>
     </div>
-    
-    @*<div class="row">
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.sach.ten)
-            </div>
-            <div class="col-sm-10">
-                @Html.DisplayFor(model => model.sach.ten)
-            </div>
-            <div class="col-sm-2">
-                Nhà xuất bản
-            </div>
-            <div class="col-sm-10">
-                @Html.DisplayFor(model => model.NXB)
-            </div>
-            <div class="col-sm-2">
-                Loại sách
-            </div>
-            <div class="col-sm-10">
-                @Html.DisplayFor(model => model.loaiSach)
-            </div>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.sach.giaBan) đ
-            </div>
-            <div class="col-sm-10">
-                @Html.DisplayFor(model => model.sach.giaBan)
-            </div>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.sach.soLuong)
-            </div>
-            <div class="col-sm-10">
-                @Html.DisplayFor(model => model.sach.soLuong)
-            </div>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.sach.moTa)
-            </div>
-            <div class="col-sm-10">
-                @Html.DisplayFor(model => model.sach.moTa)
-            </div>
-        </div>*@
 </div>

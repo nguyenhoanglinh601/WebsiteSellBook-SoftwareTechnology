@@ -1,6 +1,12 @@
 ﻿@model WebsiteBanSach.Models.TaiKhoanNhanVien
 
 @{
+    string level1 = "donhang-thongkedonhang-Trang chủ;";
+    string level2 = "taikhoannhanvien-thongketaikhoan-Thống kê tài khoản nhân viên;";
+    string level3 = "Thêm tài khoản";
+    string Navigation = level1 + level2 + level3;
+    ViewBag.Navigation = Navigation;
+
     ViewData["Title"] = "Thêm tài khoản";
     Layout = "_LayoutNV";
 }

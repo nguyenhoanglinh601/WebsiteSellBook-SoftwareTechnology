@@ -13,7 +13,7 @@ namespace WebsiteBanSach.Models
         public int idNhaXuatBan { get; set; }
 
         [Required(ErrorMessage ="trường này không được để trống")]
-        [Display(Name = "Tên nhà xuất bản")]
+        [Display(Name = "Tên")]
         public string ten { get; set; }
 
         [Required(ErrorMessage = "trường này không được để trống")]

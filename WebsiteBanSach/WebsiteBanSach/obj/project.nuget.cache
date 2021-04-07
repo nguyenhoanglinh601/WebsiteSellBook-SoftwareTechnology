@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rGNwj72Tc7aSeJKdQVpzjehqlnXmanZrh/Meo25Iil2ClT54jYNhNfDTVmRWgZVqyDi+HIDIBbRNrFl24xEY6g==",
+  "dgSpecHash": "8ldC+EGcgwTyZz0Tg2vc168Hn4IYZjk3nO8oCvJBV3iN9VBNjBFY+b1bSBqHcogIIxSeJlR2q5Tb1tIOLiAZ6g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\source\\repos\\WebsiteBanSach\\WebsiteBanSach\\WebsiteBanSach.csproj",
+  "projectFilePath": "D:\\hk1-20202021\\software technology\\1.0\\WebsiteBanSach\\WebsiteBanSach\\WebsiteBanSach.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\2.2.0\\microsoft.aspnetcore.cryptography.internal.2.2.0.nupkg.sha512",

@@ -9303,11 +9303,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\source\\repos\\WebsiteBanSach\\WebsiteBanSach\\WebsiteBanSach.csproj",
+      "projectUniqueName": "D:\\hk1-20202021\\software technology\\1.0\\WebsiteBanSach\\WebsiteBanSach\\WebsiteBanSach.csproj",
       "projectName": "WebsiteBanSach",
-      "projectPath": "C:\\Users\\user\\source\\repos\\WebsiteBanSach\\WebsiteBanSach\\WebsiteBanSach.csproj",
+      "projectPath": "D:\\hk1-20202021\\software technology\\1.0\\WebsiteBanSach\\WebsiteBanSach\\WebsiteBanSach.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\source\\repos\\WebsiteBanSach\\WebsiteBanSach\\obj\\",
+      "outputPath": "D:\\hk1-20202021\\software technology\\1.0\\WebsiteBanSach\\WebsiteBanSach\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
